@@ -1,6 +1,6 @@
 # LOOP Kanban
 
-> Auto-managed by loopd. Move tasks between columns by writing the table.
+> Auto-managed by loopd. Each row is one task. Status moves: BACKLOG -> IN_PROGRESS -> REVIEW -> DONE.
 
 | ID | Title | Status | Owner | Team | Created | Updated |
 |----|-------|--------|-------|------|---------|---------|
@@ -15,4 +15,7 @@
 | K-008 | Ship tag v1.0.0-agent-os | BACKLOG | hermes | ship | 2026-08-03 | 2026-08-03 |
 | E2E-001 | smoke test | DONE | claude |  | 2026-08-03 | 2026-08-03 |
 | E2E-001 | smoke test | DONE | claude |  | 2026-08-03 | 2026-08-03 |
+| E2E-001 | smoke test | DONE | claude |  | 2026-08-03 | 2026-08-03 |
+| LIVE-001 | live controller test | IN_PROGRESS | claude |  | 2026-08-03 | 2026-08-03 |
+| LIVE-006 | live controller test 6 | BACKLOG | claude |  | 2026-08-03 | 2026-08-03 |
 | E2E-001 | smoke test | DONE | claude |  | 2026-08-03 | 2026-08-03 |
