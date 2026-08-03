@@ -1,0 +1,5 @@
+{
+  "command": "agy",
+  "args": "--dangerously-skip-permissions --continue",
+  "cwd": "antigravity.md"
+}

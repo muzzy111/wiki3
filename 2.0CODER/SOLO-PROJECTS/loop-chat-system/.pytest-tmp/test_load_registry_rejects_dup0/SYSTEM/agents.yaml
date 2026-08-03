@@ -1,0 +1,20 @@
+schema_version: 1
+agents:
+  - role: coordinator
+    folder: a
+    agent_md: a/AGENT.md
+    persona: a/P.md
+    inbox: a/Inbox
+    outbox: a/Outbox
+    cli: ""
+    reviewer: memory
+    description: x
+  - role: coordinator
+    folder: b
+    agent_md: b/AGENT.md
+    persona: b/P.md
+    inbox: b/Inbox
+    outbox: b/Outbox
+    cli: ""
+    reviewer: memory
+    description: x

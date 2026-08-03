@@ -1,0 +1,50 @@
+schema_version: 1
+agents:
+  - role: coordinator
+    folder: 1.0COORDINATOR
+    agent_md: 1.0COORDINATOR/AGENT.md
+    persona: 1.0COORDINATOR/PROMPTS/Coordinator Persona.md
+    inbox: 1.0COORDINATOR/CHAT/Inbox
+    outbox: 1.0COORDINATOR/CHAT/Outbox
+    cli: ""
+    reviewer: memory
+    description: chat director
+  - role: coder
+    folder: 2.0CODER
+    agent_md: 2.0CODER/AGENT.md
+    persona: 2.0CODER/PROMPTS/Coder Persona.md
+    inbox: 2.0CODER/CHAT/Inbox
+    outbox: 2.0CODER/CHAT/Outbox
+    cli: ""
+    reviewer: memory
+    description: code
+  - role: researcher
+    folder: 3.0RESEARCHER
+    agent_md: 3.0RESEARCHER/AGENT.md
+    persona: 3.0RESEARCHER/PROMPTS/Researcher Persona.md
+    inbox: 3.0RESEARCHER/CHAT/Inbox
+    outbox: 3.0RESEARCHER/CHAT/Outbox
+    cli: ""
+    reviewer: memory
+    description: research
+  - role: tools
+    folder: 4.0TOOLS
+    agent_md: 4.0TOOLS/AGENT.md
+    persona: 4.0TOOLS/PROMPTS/Tools Persona.md
+    inbox: 4.0TOOLS/CHAT/Inbox
+    outbox: 4.0TOOLS/CHAT/Outbox
+    cli: ""
+    reviewer: memory
+    description: tools
+  - role: memory
+    folder: 5.0MEMORY
+    agent_md: 5.0MEMORY/AGENT.md
+    persona: 5.0MEMORY/PROMPTS/Memory Curator Persona.md
+    inbox: 5.0MEMORY/CHAT/Inbox
+    outbox: 5.0MEMORY/CHAT/Outbox
+    cli: ""
+    reviewer: memory
+    description: memory
+routing_defaults:
+  question: coordinator
+  task_general: coordinator

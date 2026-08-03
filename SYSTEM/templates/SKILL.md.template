@@ -1,0 +1,37 @@
+---
+title: "{{SKILL_NAME}}"
+role: "{{ROLE}}"
+template: true
+---
+
+# {{SKILL_NAME}}
+
+> Skill definition for the {{ROLE}} role. One skill per major capability; reference skills from AGENT.md and Skills Index.
+
+## Purpose
+
+{{SKILL_PURPOSE}}
+
+## When to Use
+
+{{WHEN_TO_USE}}
+
+## Procedure
+
+{{PROCEDURE}}
+
+## Pitfalls
+
+{{PITFALLS}}
+
+## Related Skills
+
+{{RELATED_SKILLS}}
+
+## Evidence Path
+
+When this skill is exercised, write evidence to `.omo/evidence/<role>-<skill>-<timestamp>.txt`.
+
+## Outputs
+
+{{OUTPUTS}}

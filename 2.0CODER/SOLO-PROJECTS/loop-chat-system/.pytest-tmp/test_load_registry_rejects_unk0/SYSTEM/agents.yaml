@@ -1,0 +1,11 @@
+schema_version: 1
+agents:
+  - role: hermes
+    folder: 1.0HERMES
+    agent_md: 1.0HERMES/AGENT.md
+    persona: 1.0HERMES/P.md
+    inbox: 1.0HERMES/Inbox
+    outbox: 1.0HERMES/Outbox
+    cli: ""
+    reviewer: memory
+    description: legacy

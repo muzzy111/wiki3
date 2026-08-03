@@ -1,0 +1,58 @@
+---
+title: "{{ROLE}} Agent Definition"
+role: "{{ROLE}}"
+folder: "{{FOLDER}}"
+status: active
+template: true
+---
+
+# {{ROLE}} Agent
+
+> Role-keyed definition for the {{ROLE}} slot in the LOOP vault. Generated from `SYSTEM/templates/AGENT.md.template`.
+
+## Role
+
+{{ROLE_SUMMARY}}
+
+## Responsibilities
+
+{{RESPONSIBILITIES}}
+
+## Authority
+
+{{AUTHORITY}}
+
+## Exclusions
+
+{{EXCLUSIONS}}
+
+## Communication Edges
+
+- **Receives from:** {{INBOX_FROM}}
+- **Sends to:** {{OUTBOX_TO}}
+- **Reviews by:** {{REVIEWER}}
+
+## Lifecycle Hooks
+
+- **On session start:** Read this AGENT.md and `{{FOLDER}}/MEMORY/{{ROLE}} Memory.md`.
+- **On dispatch:** Write a brief to `{{FOLDER}}/CHAT/Inbox/<timestamp> — <slug>.md`.
+- **On completion:** Write a completion to `{{FOLDER}}/CHAT/Outbox/<timestamp> — <slug>.md`.
+- **On review:** Hand off to the {{REVIEWER}} role via the inter-agent protocol.
+
+## Persona
+
+The role's prompt is at `{{FOLDER}}/PROMPTS/{{ROLE}} Persona.md`. Read it before any output.
+
+## Memory
+
+The role's memory is at `{{FOLDER}}/MEMORY/{{ROLE}} Memory.md`. Append-only; curate in long-running sessions.
+
+## Evidence
+
+Each lifecycle event writes evidence to `.omo/evidence/task-<N>-<slug>.txt` per the QA scenarios in `plan.txt`.
+
+## Related
+
+- Routing rules: `{{FOLDER}}/RULES/Routing Rules.md`
+- Skills: `{{FOLDER}}/SKILLS/`
+- Chat protocol: `{{FOLDER}}/CHAT/Chat Protocol.md`

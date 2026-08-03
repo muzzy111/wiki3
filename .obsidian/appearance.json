@@ -1,0 +1,14 @@
+{
+  "accentColor": "#13ec37",
+  "cssTheme": "PLN",
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "anti-graph",
+    "graph-depth-color",
+    "graph-polish",
+    "vault-theme",
+    "canvas-material",
+    "anti-obsidian-cards"
+  ],
+  "nativeMenus": true
+}

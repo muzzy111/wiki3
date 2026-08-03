@@ -1,0 +1,212 @@
+{
+  "nodes": [
+    {
+      "id": "p_agent-os-72h",
+      "type": "text",
+      "text": "# LOOP Agent OS — 72-hour Ship\n\nStatus: [IN PROGRESS]\nOwner: hermes\nLast touched: 2026-08-03\n\nNext action:\nPhase 1.2: write wrapper shims for off-PATH agents (antigravity, mavis, copilot, openwork).",
+      "x": 0,
+      "y": 0,
+      "width": 520,
+      "height": 260,
+      "color": "1"
+    },
+    {
+      "id": "p_loop-os-css",
+      "type": "text",
+      "text": "# loop-os.css (single dark theme)\n\nStatus: [BACKLOG]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nPhase 3.2 — author a single dark CSS; remove emoji/SVG/icon CSS from snippets.",
+      "x": 0,
+      "y": 320,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_fleet-dashboards",
+      "type": "text",
+      "text": "# Per-agent fleet dashboards (10 files)\n\nStatus: [IN PROGRESS]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nPhase 3.3 — verify all 10 DASHBOARD.md render with live metrics and graceful degrade.",
+      "x": 580,
+      "y": 0,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_projects-canvas",
+      "type": "text",
+      "text": "# Projects flowchart canvas\n\nStatus: [IN PROGRESS]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nPhase 3.4 — re-render this canvas whenever PROJECTS/Index.md changes.",
+      "x": 580,
+      "y": 240,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_agent-controls",
+      "type": "text",
+      "text": "# Agent control boards (Buttons)\n\nStatus: [IN PROGRESS]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nPhase 3.5 — verify all 10 CONTROL.md buttons invoke loopd correctly.",
+      "x": 1160,
+      "y": 0,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_system-meters",
+      "type": "text",
+      "text": "# System meters (CPU/RAM/Net/Disk)\n\nStatus: [IN PROGRESS]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nPhase 3.6 — Prometheus queries live; ASCII bar charts render without SVG.",
+      "x": 1160,
+      "y": 240,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_loopd-build",
+      "type": "text",
+      "text": "# loopd v0.72.0 — controller + spawner + NATS\n\nStatus: [DONE]\nOwner: claude\nLast touched: 2026-08-03\n\nNext action:\nPhase 2 complete; Phase 2.9 still TODO (containerize + Windows watchdog).",
+      "x": 0,
+      "y": 560,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_nat-jetstream",
+      "type": "text",
+      "text": "# NATS JetStream on localhost:4222\n\nStatus: [DONE]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nVerified live (v2.10.29, 12h+ uptime). Loopd still needs to subscribe to agents.>.",
+      "x": 580,
+      "y": 560,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_prom-stack",
+      "type": "text",
+      "text": "# Prometheus + node-exporter + loopd scrape\n\nStatus: [BLOCKED]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nloopd scrape job shows up=0 on :9101; loopd must come up to clear BLOCKED.",
+      "x": 1160,
+      "y": 560,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_dojo-loop",
+      "type": "text",
+      "text": "# DOJO self-improvement loop\n\nStatus: [BACKLOG]\nOwner: mavis\nLast touched: 2026-08-03\n\nNext action:\nPhase 4.2 — seed 5 challenges in WORKFLOWS/DOJO/.",
+      "x": 0,
+      "y": 820,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_team-presets",
+      "type": "text",
+      "text": "# 6 preconfigured team YAMLs\n\nStatus: [BACKLOG]\nOwner: opencode\nLast touched: 2026-08-03\n\nNext action:\nPhase 5.1 — author OSINT, SE, Agent-Eng, KB, Deep-Research, Global-Outlook YAML in C:\\\\loop-services\\\\teams\\\\.",
+      "x": 580,
+      "y": 820,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "p_ship-tag",
+      "type": "text",
+      "text": "# v1.0.0-agent-os ship tag\n\nStatus: [BACKLOG]\nOwner: mavis\nLast touched: 2026-08-03\n\nNext action:\nPhase 6.4 — tag + post-launch checklist after 24h soak.",
+      "x": 1160,
+      "y": 820,
+      "width": 520,
+      "height": 200,
+      "color": "1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_main_dash",
+      "fromNode": "p_agent-os-72h",
+      "fromSide": "right",
+      "toNode": "p_fleet-dashboards",
+      "toSide": "left"
+    },
+    {
+      "id": "e_main_canvas",
+      "fromNode": "p_agent-os-72h",
+      "fromSide": "right",
+      "toNode": "p_projects-canvas",
+      "toSide": "left"
+    },
+    {
+      "id": "e_main_ctrl",
+      "fromNode": "p_agent-os-72h",
+      "fromSide": "right",
+      "toNode": "p_agent-controls",
+      "toSide": "left"
+    },
+    {
+      "id": "e_main_meters",
+      "fromNode": "p_agent-os-72h",
+      "fromSide": "right",
+      "toNode": "p_system-meters",
+      "toSide": "left"
+    },
+    {
+      "id": "e_main_css",
+      "fromNode": "p_agent-os-72h",
+      "fromSide": "bottom",
+      "toNode": "p_loop-os-css",
+      "toSide": "top"
+    },
+    {
+      "id": "e_dash_ctrl",
+      "fromNode": "p_fleet-dashboards",
+      "fromSide": "bottom",
+      "toNode": "p_agent-controls",
+      "toSide": "bottom"
+    },
+    {
+      "id": "e_loopd_nats",
+      "fromNode": "p_loopd-build",
+      "fromSide": "right",
+      "toNode": "p_nat-jetstream",
+      "toSide": "left"
+    },
+    {
+      "id": "e_prom_loopd",
+      "fromNode": "p_nat-jetstream",
+      "fromSide": "right",
+      "toNode": "p_prom-stack",
+      "toSide": "left"
+    },
+    {
+      "id": "e_meters_prom",
+      "fromNode": "p_system-meters",
+      "fromSide": "bottom",
+      "toNode": "p_prom-stack",
+      "toSide": "top"
+    },
+    {
+      "id": "e_dojo_team",
+      "fromNode": "p_dojo-loop",
+      "fromSide": "right",
+      "toNode": "p_team-presets",
+      "toSide": "left"
+    },
+    {
+      "id": "e_team_ship",
+      "fromNode": "p_team-presets",
+      "fromSide": "right",
+      "toNode": "p_ship-tag",
+      "toSide": "left"
+    }
+  ],
+  "metadata": {
+    "version": "1.0-1.0",
+    "frontmatter": {
+      "title": "Projects — Flowchart",
+      "type": "project-flowchart",
+      "seeded_from": "PROJECTS/Index.md",
+      "created": "2026-08-03"
+    }
+  }
+}

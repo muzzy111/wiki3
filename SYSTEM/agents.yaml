@@ -1,0 +1,178 @@
+# LOOP Agent OS — Agent Registry
+# Source of truth for the 10 persistent agents. loopd reads this at startup.
+# Edits here require a `loopd reload` (sends to NATS subject agents.config.reload).
+
+version: 1
+bus:
+  url: "nats://localhost:4222"
+  stream: "AGENT_ENVELOPES"
+  management_url: "http://localhost:8222"
+
+controller:
+  provider: openrouter
+  model: "deepseek/deepseek-chat-v3"
+  fallback:
+    - "google/gemini-2.5-flash"
+    - "anthropic/claude-3.5-haiku"
+  temperature: 0.2
+  response_format: json_object
+  max_tokens: 1024
+  request_timeout_seconds: 30
+
+budget:
+  max_skills_per_agent: 3
+  max_mcps_per_agent: 2
+  max_ephemeral_per_minute: 3
+
+agents:
+  - role: hermes
+    cli: hermes
+    args: ["chat", "-q"]
+    is_persistent: true
+    profile: minimax
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.hermes"
+      inbox: "inbox.hermes"
+      heartbeat: "heartbeat.hermes"
+      reply: "reply.hermes"
+    description: "Orchestrator. Coordinator-anchored. First responder for messages."
+
+  - role: claude
+    cli: claude
+    args: ["-p"]
+    is_persistent: true
+    profile: default
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.claude"
+      inbox: "inbox.claude"
+      heartbeat: "heartbeat.claude"
+      reply: "reply.claude"
+    description: "Claude Code. Deep implementation, architecture review, refactors."
+
+  - role: cline
+    cli: cline
+    args: ["--yolo"]
+    is_persistent: true
+    profile: cline-pass
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.cline"
+      inbox: "inbox.cline"
+      heartbeat: "heartbeat.cline"
+      reply: "reply.cline"
+    description: "Cline CLI. Bulk file operations, parallel work, reviews."
+
+  - role: grok
+    cli: grok
+    args: []
+    is_persistent: true
+    profile: grok-super-heavy
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.grok"
+      inbox: "inbox.grok"
+      heartbeat: "heartbeat.grok"
+      reply: "reply.grok"
+    description: "Grok. Real-time search, large context, X/Twitter-aware."
+
+  - role: opencode
+    cli: opencode
+    args: []
+    is_persistent: true
+    profile: default
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.opencode"
+      inbox: "inbox.opencode"
+      heartbeat: "heartbeat.opencode"
+      reply: "reply.opencode"
+    description: "OpenCode. Platform/tooling builds, GUI work, MCP servers."
+
+  - role: mavis
+    cli: mavis
+    args: []
+    is_persistent: true
+    profile: minimax-m3
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.mavis"
+      inbox: "inbox.mavis"
+      heartbeat: "heartbeat.mavis"
+      reply: "reply.mavis"
+    description: "Mavis (MiniMax coder). Code review, test, validation."
+
+  - role: antigravity
+    cli: antigravity
+    args: []
+    is_persistent: true
+    profile: default
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.antigravity"
+      inbox: "inbox.antigravity"
+      heartbeat: "heartbeat.antigravity"
+      reply: "reply.antigravity"
+    description: "Antigravity CLI. IDE-aware, large multi-file refactors, swarm."
+
+  - role: copilot
+    cli: copilot
+    args: ["suggest"]
+    is_persistent: true
+    profile: default
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.copilot"
+      inbox: "inbox.copilot"
+      heartbeat: "heartbeat.copilot"
+      reply: "reply.copilot"
+    description: "GitHub Copilot. Quick suggestions, code completion, docstrings."
+
+  - role: openwork
+    cli: openwork
+    args: ["serve"]
+    is_persistent: true
+    profile: default
+    max_skills: 3
+    max_mcps: 2
+    nats:
+      work: "work.openwork"
+      inbox: "inbox.openwork"
+      heartbeat: "heartbeat.openwork"
+      reply: "reply.openwork"
+    description: "OpenWork. Claude-cowork-style agent with HTTP API."
+
+  - role: ollama
+    cli: ollama
+    args: ["run"]
+    is_persistent: true
+    profile: local
+    max_skills: 1
+    max_mcps: 0
+    nats:
+      work: "work.ollama"
+      inbox: "inbox.ollama"
+      heartbeat: "heartbeat.ollama"
+      reply: "reply.ollama"
+    description: "Ollama local. Mini function-calling. No MCP, no cloud."
+
+models:
+  ollama:
+    - name: "huihui-lfm2.5-8b-a1b-abliterated:q8_0"
+      role: function-calling
+      size_gb: 9.0
+    - name: "llama3.2-3b-instruct-abliterated:q8_0"
+      role: mini-general
+      size_gb: 3.8
+    - name: "qwen2.5-coder-1.5b-instruct-abliterated:f16"
+      role: mini-coder
+      size_gb: 3.6

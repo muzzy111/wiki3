@@ -1,0 +1,127 @@
+/* ==========================================================================
+   OBSIDIAN CANVAS MATERIAL DESIGN UPGRADE (v1.0.0)
+   Aligns Obsidian Canvas nodes, colors, groups, and edges with the vault's
+   primary folder ontology and a polished Material Design aesthetic.
+   ========================================================================== */
+
+/* 1. Base Canvas Node Polishing */
+.canvas-node {
+  border-radius: 12px !important;
+  border-width: 1px !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s ease !important;
+}
+
+/* Hover elevation */
+.canvas-node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Focus state */
+.canvas-node.is-focused {
+  border-color: rgba(var(--canvas-color), 1) !important;
+  box-shadow: 0 0 0 3px rgba(var(--canvas-color), 0.25),
+              0 10px 15px -3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Rounded contents within cards */
+.canvas-node-content-blocker,
+.canvas-node-content {
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
+
+/* Headings within canvas elements */
+.canvas-node-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+
+.canvas-node-title {
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+}
+
+
+/* 2. Color Palette Alignment (Folder Ontology Mapping) */
+
+/* Color 1: Alert Red / Security */
+.canvas-color-1 {
+  --canvas-color: 255, 64, 39 !important; /* #FF4027 */
+}
+
+/* Color 2: Hermes Amber */
+.canvas-color-2 {
+  --canvas-color: 255, 101, 6 !important; /* #FF6506 */
+}
+
+/* Color 3: Prompts Yellow */
+.canvas-color-3 {
+  --canvas-color: 255, 202, 0 !important; /* #FFCA00 */
+}
+
+/* Color 4: Skills Cobalt */
+.canvas-color-4 {
+  --canvas-color: 86, 0, 255 !important; /* #5600FF */
+}
+
+/* Color 5: Pi Sky Blue */
+.canvas-color-5 {
+  --canvas-color: 51, 191, 255 !important; /* #33BFFF */
+}
+
+/* Color 6: Antigravity Electric Violet */
+.canvas-color-6 {
+  --canvas-color: 101, 15, 255 !important; /* #650FFF */
+}
+
+
+/* 3. Group Nodes Upgrade (Frames) */
+.canvas-node-group {
+  border-radius: 16px !important;
+  border-style: dashed !important;
+  border-width: 1.5px !important;
+  border-color: rgba(var(--canvas-color), 0.4) !important;
+  background-color: rgba(var(--canvas-color), 0.025) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.canvas-node-group:hover {
+  transform: none !important;
+  border-color: rgba(var(--canvas-color), 0.7) !important;
+  background-color: rgba(var(--canvas-color), 0.04) !important;
+}
+
+.canvas-node-group.is-focused {
+  border-color: rgba(var(--canvas-color), 1) !important;
+  border-style: solid !important;
+}
+
+
+/* 4. Canvas Edges (Connecting Lines) styling */
+.canvas-edge {
+  stroke-width: 2px !important;
+  stroke: rgba(255, 255, 255, 0.15) !important;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease !important;
+}
+
+.canvas-edge.is-selected {
+  stroke-width: 3px !important;
+}
+
+.canvas-edge-label {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  padding: 3px 6px !important;
+  color: var(--text-muted) !important;
+}

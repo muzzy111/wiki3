@@ -1,0 +1,16 @@
+{
+  "tools": {},
+  "watchEnabled": true,
+  "watchDebounceMs": 500,
+  "deepSearchDefault": true,
+  "deepSearchScope": "both",
+  "favorites": [],
+  "collections": {},
+  "customScanPaths": [
+    "C:\\Users\\Admin\\OBSIDIAN\\wiki"
+  ],
+  "namingMode": "auto",
+  "projectScanEnabled": true,
+  "projectsHomeDir": "",
+  "packageRunner": "auto"
+}

@@ -1,0 +1,10 @@
+schema_version: 1
+agents:
+  - role: coordinator
+    folder: 1.0COORDINATOR
+    agent_md: 1.0COORDINATOR/AGENT.md
+    persona: 1.0COORDINATOR/PROMPTS/Coordinator Persona.md
+    inbox: 1.0COORDINATOR/CHAT/Inbox
+    outbox: 1.0COORDINATOR/CHAT/Outbox
+    cli: ""
+    description: x

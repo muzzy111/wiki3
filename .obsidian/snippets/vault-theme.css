@@ -1,0 +1,173 @@
+/* ==========================================================================
+   ANTI-OBSIDIAN THEME & INTERFACE ENHANCEMENT SNIPPET (v1.0.0)
+   Designed for High-Density Knowledge Visualizations, Glassmorphic Dashboards,
+   and Responsive Card Grids.
+   ========================================================================== */
+
+/* 1. Dataview Card Grid Layout (Triggers when note metadata includes cssclasses: cards) */
+.markdown-preview-view.cards table {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 16px !important;
+  border: none !important;
+  padding: 8px 0 !important;
+}
+
+.markdown-preview-view.cards thead {
+  display: none !important;
+}
+
+.markdown-preview-view.cards tbody {
+  display: contents !important;
+}
+
+.markdown-preview-view.cards tr {
+  display: flex !important;
+  flex-direction: column !important;
+  background: rgba(30, 41, 59, 0.25) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px !important;
+  padding: 18px !important;
+  margin: 0 !important;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.22s ease, 
+              box-shadow 0.22s ease !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.markdown-preview-view.cards tr:hover {
+  transform: translateY(-4px) !important;
+  border-color: var(--interactive-accent) !important;
+  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.4), 0 8px 8px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.markdown-preview-view.cards td {
+  border: none !important;
+  padding: 4px 0 !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+}
+
+/* First Column: Title / Link */
+.markdown-preview-view.cards td:first-child {
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: var(--text-normal) !important;
+  margin-bottom: 6px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  padding-bottom: 8px !important;
+}
+
+.markdown-preview-view.cards td:first-child a {
+  color: var(--text-normal) !important;
+  text-decoration: none !important;
+}
+
+.markdown-preview-view.cards td:first-child a:hover {
+  color: var(--interactive-accent) !important;
+}
+
+
+/* 2. Glassmorphic Dashboard Containers (scoped using .glass-panel class) */
+.glass-panel {
+  background: rgba(17, 24, 39, 0.4) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  margin: 16px 0 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+}
+
+
+/* 3. Custom Callouts Styles (Security, OSINT, Code) */
+
+/* SECURITY / CRITICAL */
+.callout[data-callout="security"] {
+  --callout-color: 239, 68, 68;
+  --callout-icon: lucide-shield-alert;
+  border-left-width: 4px !important;
+}
+
+/* EVERGREEN / MATURE CONCEPT */
+.callout[data-callout="evergreen"] {
+  --callout-color: 34, 197, 94;
+  --callout-icon: lucide-tree-pine;
+  border-left-width: 4px !important;
+}
+
+/* OSINT / SEARCH */
+.callout[data-callout="osint"] {
+  --callout-color: 59, 130, 246;
+  --callout-icon: lucide-eye;
+  border-left-width: 4px !important;
+}
+
+/* SYSTEM PROMPTS / MODEL CONTEXT */
+.callout[data-callout="model"] {
+  --callout-color: 168, 85, 247;
+  --callout-icon: lucide-cpu;
+  border-left-width: 4px !important;
+}
+
+
+/* 4. Interactive Hover Animations for In-line Elements */
+.markdown-preview-view a.internal-link {
+  transition: color 0.15s ease, border-bottom 0.15s ease !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+.markdown-preview-view a.internal-link:hover {
+  color: var(--interactive-accent) !important;
+  border-bottom-color: var(--interactive-accent) !important;
+  text-decoration: none !important;
+}
+
+
+/* 5. Custom Checkbox Task States */
+.task-list-item-checkbox[data-task="!"] {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgb(239, 68, 68) !important;
+}
+.task-list-item-checkbox[data-task="!"]::after {
+  content: "!" !important;
+  color: rgb(239, 68, 68) !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+}
+
+.task-list-item-checkbox[data-task="/"] {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  border-color: rgb(245, 158, 11) !important;
+}
+.task-list-item-checkbox[data-task="/"]::after {
+  content: "/" !important;
+  color: rgb(245, 158, 11) !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+}
+
+.task-list-item-checkbox[data-task=">"] {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border-color: rgb(59, 130, 246) !important;
+}
+.task-list-item-checkbox[data-task=">"]::after {
+  content: "→" !important;
+  color: rgb(59, 130, 246) !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+}

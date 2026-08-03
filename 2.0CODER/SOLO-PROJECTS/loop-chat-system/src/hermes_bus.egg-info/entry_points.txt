@@ -1,0 +1,2 @@
+[console_scripts]
+hermes-bus = hermes_bus.daemon:main

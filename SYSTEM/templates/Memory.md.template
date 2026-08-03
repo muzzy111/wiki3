@@ -1,0 +1,33 @@
+---
+title: "{{ROLE}} Memory"
+role: "{{ROLE}}"
+template: true
+---
+
+# {{ROLE}} Memory
+
+> Long-term memory for the {{ROLE}} role. Append-only; curated by the {{REVIEWER}} role during audits.
+
+## Long-term Memory
+
+> Patterns the {{ROLE}} role has internalized across many sessions. Add sparingly — only what will be true in future sessions, not today's specifics.
+
+{{LONG_TERM}}
+
+## Recent Context
+
+> Last 5 sessions' worth of context. Trimmed weekly by the {{REVIEWER}} role during audits.
+
+{{RECENT}}
+
+## Outstanding Questions
+
+> Unresolved questions, blockers, dependencies. Update when something changes.
+
+{{OPEN_QUESTIONS}}
+
+## How to Update
+
+- Append a new section under "Recent Context" for each session.
+- Promote stable patterns from "Recent Context" to "Long-term Memory" once they've held across 3+ sessions.
+- Move resolved items out of "Outstanding Questions" to `{{FOLDER}}/CHAT/Archive/` with the resolution note.

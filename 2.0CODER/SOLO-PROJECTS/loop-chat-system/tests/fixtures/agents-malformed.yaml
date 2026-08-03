@@ -1,0 +1,5 @@
+schema_version: 1
+agents:
+  - role: coordinator
+    folder: x
+    # missing many required fields

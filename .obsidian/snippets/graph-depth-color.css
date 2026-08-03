@@ -1,0 +1,185 @@
+/* =============================================================
+   ANTI-OBSIDIAN — GRAPH DEPTH & COLOR SYSTEM
+   Vault: wiki | Theme: PLN (dark) | Accent: #971c22
+   
+   Layers of depth:
+   1. Node base — glowing fill with domain color bleed
+   2. Node hover — expand + intensify + label lock
+   3. Links — luminous gradient lines, directional glow
+   4. Label — crisp, fades by zoom, high contrast
+   5. Tag nodes — visually distinct from note nodes
+   ============================================================= */
+
+/*  GRAPH CANVAS BASE  */
+.graph-view.color-fill,
+.graph-view.color-fill-tag,
+.graph-view.color-fill-attachment,
+.graph-view.color-fill-unresolved {
+  opacity: 1 !important;
+}
+
+/*  NODE DEPTH — glow, scale, drop shadow per state  */
+
+/* Resting nodes — subtle inner luminance */
+.graph-view.color-circle {
+  filter: drop-shadow(0 0 3px currentColor);
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+/* Hover state — node expands and glows hard */
+.graph-view.color-circle:hover {
+  filter:
+    drop-shadow(0 0 8px currentColor)
+    drop-shadow(0 0 18px currentColor)
+    brightness(1.35);
+  transform: scale(1.18);
+  z-index: 100;
+}
+
+/* Active / selected node — maximum intensity */
+.graph-view.color-circle.is-active,
+.graph-view.color-circle.is-focused {
+  filter:
+    drop-shadow(0 0 12px currentColor)
+    drop-shadow(0 0 28px currentColor)
+    brightness(1.5);
+  transform: scale(1.28);
+}
+
+/*  LINK LINES — depth through opacity and glow  */
+.graph-view.color-line {
+  opacity: 0.38;
+  transition: opacity 0.2s ease;
+}
+
+/* Links attached to hovered node — illuminate */
+.graph-view.color-line.is-near {
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px rgba(151, 28, 34, 0.6));
+}
+
+/* Active path links — full luminance */
+.graph-view.color-line.is-focused {
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 3px rgba(255,255,255,0.4))
+    drop-shadow(0 0 8px rgba(151, 28, 34, 0.8));
+}
+
+/* Arrows on directed links */
+.graph-view.color-arrow {
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.graph-view.color-arrow.is-focused {
+  opacity: 1;
+}
+
+/*  LABEL DEPTH — hierarchy of text legibility  */
+
+/* Default label — dimmed, lets nodes breathe */
+.graph-view .label {
+  font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.45);
+  text-shadow: none;
+  transition: color 0.2s ease, font-size 0.2s ease, text-shadow 0.2s ease;
+}
+
+/* Hover label — sharp and bright */
+.graph-view .label:hover,
+.graph-view.is-focused .label {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.9);
+  font-size: 8px;
+  font-weight: 600;
+}
+
+/* Hub note labels — always larger, always bright */
+.graph-view .label.tag-type-hub {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+/*  TAG NODES — visually distinct from note nodes  */
+.graph-view.color-fill-tag {
+  opacity: 0.7;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));
+}
+
+/*  UNRESOLVED NODES — clearly dim, not invisible  */
+.graph-view.color-fill-unresolved {
+  opacity: 0.3;
+  filter: grayscale(0.5);
+}
+
+/*  GRAPH CONTAINER — deep dark void with subtle grid  */
+.graph-view-content {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(20, 6, 8, 1) 0%, rgba(5, 3, 5, 1) 100%);
+}
+
+/* Optional: subtle star-field depth effect on the canvas */
+.graph-view-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.06) 0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 18%, rgba(255,255,255,0.04) 0%, transparent 100%),
+    radial-gradient(1px 1px at 43% 67%, rgba(255,255,255,0.05) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,0.03) 0%, transparent 100%),
+    radial-gradient(1px 1px at 31% 82%, rgba(255,255,255,0.05) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/*  LOCAL GRAPH PANEL — sidebar version  */
+.graph-view-content.is-local {
+  background: rgba(8, 4, 6, 0.95);
+  border-radius: 8px;
+}
+
+/*  GRAPH CONTROLS PANEL  */
+.graph-controls {
+  background: rgba(15, 8, 10, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(151, 28, 34, 0.25) !important;
+  border-radius: 10px !important;
+}
+
+.graph-controls .graph-control-section-header {
+  color: rgba(151, 28, 34, 0.9) !important;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+/*  COLOR LEGEND IN CONTROLS  */
+/* Domain color reference — matches graph.json assignments      */
+/*
+   HUB NOTES         #FF6010  — warm orange, highest rank
+  🟣 antigravity       #650FFF  — electric violet (Google DeepMind)
+  🟠 hermes            #FF6506  — amber (messenger fire)
+   pi                #33BFFF  — sky blue (Inflection)
+   opencode          #5500FF  — deep blue (terminal)
+  🟡 openclaw          #FF9F00  — gold (claw = striking)
+   mcp               #A55FFF  — lavender (protocol layer)
+   skills            #5600FF  — cobalt (capability)
+   obsidian          #9400FF  — vault purple
+   security          #FF4027  — alert red (threats)
+   prompts           #FFCA00  — bright yellow (language)
+   lmstudio          #3B7FFF  — cornflower blue
+  🟤 database          #FF8000  — burnt orange
+   karpathy          #FFFF59  — near-white yellow (knowledge)
+  🟢 neurite           #8500FF  — teal-purple
+   inbox             #808080  — neutral gray (unprocessed)
+*/

@@ -1,0 +1,10 @@
+services:
+  memory:
+    build: .
+    stdin_open: true
+    tty: true
+    environment:
+      - LOOP_VAULT_ROOT=/vault
+    volumes:
+      - ../../:/vault:ro
+    # stdio transport; no exposed ports.

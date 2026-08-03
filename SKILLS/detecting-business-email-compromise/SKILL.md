@@ -1,0 +1,99 @@
+---
+name: detecting-business-email-compromise
+description: "BEC detection agent - analyzes email headers and content for Business Email Compromise indicators. Parses email headers for spoofing signals, checks DMARC/SPF/DKIM alignment, detects urgency language patterns, and.... Use when the user asks to detect business email compromise."
+version: 1.0.0
+tags:
+  - detecting
+  - threat-intel
+  - email
+source: detecting-business-email-compromise
+---
+
+# Detecting Business Email Compromise
+
+**Role:** Detection engineering  
+**Audience:** detection engineers and SOC analysts  
+**Primary tools:** Python email Library, Microsoft Graph API, FBI IC3 BEC Classification, NIST / Regulatory, Detection Rule Categories
+
+## When to use
+
+- The user wants to **detect** business email compromise.
+- Capability: BEC detection agent - analyzes email headers and content for Business Email Compromise indicators. Parses email headers for spoofing signals, checks DMARC/SPF/DKIM alignment, detects urgency language patterns, and flags financial request anomalies.
+- Goal: identify malicious or anomalous activity with high-signal detections.
+- Trigger keywords: `detecting, business, email, compromise`
+
+## Outcomes
+
+A successful run should leave the user with:
+1. A clear answer to the objective (findings, status, or deliverable).
+2. Evidence pointers (commands, logs, artifacts, hashes, or query results).
+3. Prioritized next actions (contain, remediate, hunt further, or document).
+4. Completed or draft artifacts from `assets/` templates when applicable.
+
+## High-level procedure
+
+1. Define the detection hypothesis and data sources
+2. Identify telemetry and features relevant to business email compromise
+3. Build or refine detection logic (rules, queries, models)
+4. Tune against baselined benign activity to reduce noise
+5. Validate with true-positive cases and document coverage gaps
+
+## Key concepts
+
+- Type 1: CEO Fraud / Executive Impersonation
+- Type 2: Account Compromise (compromised employee email)
+- Type 3: False Invoice / Vendor Email Compromise
+- Type 4: Attorney Impersonation
+- Type 5: Data Theft (W-2/PII requests)
+- T1566.001/002: Phishing (initial access for BEC)
+- T1534: Internal Spearphishing
+- T1114.003: Email Collection: Email Forwarding Rule
+
+## Tools & resources
+
+- Python email Library
+- Microsoft Graph API
+- FBI IC3 BEC Classification
+- NIST / Regulatory
+- Detection Rule Categories
+
+## How the agent should work
+
+1. **Orient** — Restate the user's goal, scope, and constraints in one short paragraph.
+2. **Load depth as needed** — Do **not** dump raw API tables into the chat. Read only the reference sections required for the current step.
+   - Workflows and playbooks: `references/workflows.md` (if present)
+   - Standards, data models, event IDs: `references/standards.md` (if present)
+   - CLI/API flags and query snippets: `references/api-reference.md`
+3. **Prefer automation** — Use `scripts/agent.py` (and `scripts/process.py` if present) for repeatable collection/analysis when the environment allows.
+4. **Explain at the right altitude** — Lead with decisions and findings; put flags, full queries, and hex dumps in collapsible detail or appendices.
+5. **Close the loop** — Summarize confidence, residual risk, and concrete next steps.
+
+## Package layout
+
+| Path | Purpose |
+|------|---------|
+| `SKILL.md` | This high-level playbook (start here) |
+| `references/` | Deep procedure, standards, and CLI/API detail |
+| `scripts/` | Automation helpers for collection/analysis |
+| `assets/` | Templates, checklists, and report scaffolds |
+
+## Automation entry points
+
+- `parse_email_file`
+- `check_spf_dkim_dmarc`
+- `check_display_name_spoofing`
+- `check_reply_to_mismatch`
+- `detect_urgency_language`
+- `calculate_bec_score`
+- `analyze_email`
+
+## Quality bar
+
+- Prefer **evidence-backed** claims (artifact path, event ID, hash, query).
+- Separate **fact**, **inference**, and **recommendation**.
+- Call out false-positive pitfalls for this technique.
+- When unsure, say so and propose the cheapest validation step.
+
+---
+
+*High-level skill guide for `detecting-business-email-compromise`. Low-level flags and schemas live under `references/` — load them on demand rather than treating them as the skill definition.*

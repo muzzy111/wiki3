@@ -1,0 +1,5 @@
+schema_version: 1
+agents:
+  - role: !!python/name:os.system "" :
+    bad: ]unmatched
+key without value

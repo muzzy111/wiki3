@@ -1,0 +1,84 @@
+/* ANTI-OBSIDIAN: Dataview Card Layouts */
+/* Triggers when `cssclasses: [cards]` is present in frontmatter */
+
+.markdown-preview-view.cards .block-language-dataview table,
+.markdown-preview-view.cards .block-language-dataviewjs table,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview table,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs table {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  border: none;
+  background: transparent;
+  padding: 8px 0;
+}
+
+.markdown-preview-view.cards .block-language-dataview thead,
+.markdown-preview-view.cards .block-language-dataviewjs thead,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview thead,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs thead {
+  display: none; /* Hide table headers in card view */
+}
+
+.markdown-preview-view.cards .block-language-dataview tbody,
+.markdown-preview-view.cards .block-language-dataviewjs tbody,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview tbody,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs tbody {
+  display: contents;
+}
+
+.markdown-preview-view.cards .block-language-dataview tr,
+.markdown-preview-view.cards .block-language-dataviewjs tr,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview tr,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs tr {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
+  overflow: hidden;
+}
+
+.markdown-preview-view.cards .block-language-dataview tr:hover,
+.markdown-preview-view.cards .block-language-dataviewjs tr:hover,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview tr:hover,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs tr:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.markdown-preview-view.cards .block-language-dataview td,
+.markdown-preview-view.cards .block-language-dataviewjs td,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview td,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs td {
+  display: block;
+  border: none;
+  padding: 4px 0;
+  line-height: 1.4;
+}
+
+/* The first column (usually the file link) gets styled as the card title */
+.markdown-preview-view.cards .block-language-dataview td:first-child,
+.markdown-preview-view.cards .block-language-dataviewjs td:first-child,
+.markdown-source-view.mod-cm6 .cards .block-language-dataview td:first-child,
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs td:first-child {
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 8px;
+  color: var(--text-normal);
+}
+
+/* Secondary meta fields styling */
+.markdown-preview-view.cards .block-language-dataview td:not(:first-child),
+.markdown-preview-view.cards .block-language-dataviewjs td:not(:first-child),
+.markdown-source-view.mod-cm6 .cards .block-language-dataview td:not(:first-child),
+.markdown-source-view.mod-cm6 .cards .block-language-dataviewjs td:not(:first-child) {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}

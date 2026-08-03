@@ -1,0 +1,39 @@
+# Heavy / auto-generated
+.smart-env/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.obsidian/workspace.json
+.obsidian/cache/
+.obsidian/themes/PLN/
+.Smart Connections/
+.smart-env/
+.trash/
+*.log
+*.zip
+*.tmp
+.DS_Store
+Thumbs.db
+# These dirs are large and not core to the OS
+SKILLS/docs/
+SKILLS/awesome-agent-skills-main/
+SKILLS/hooks/
+SKILLS/research/
+SKILLS/scripts/
+SKILLS/specs/
+SKILLS/plans/
+WORKFLOWS/WORKFLOW CANVAS/CHAT-HISTORY/
+WORKFLOWS/WORKFLOW CANVAS/DEVELOPED/
+WORKFLOWS/WORKFLOW CANVAS/MEMORY/
+WORKFLOWS/WORKFLOW CANVAS/RAW/
+WORKFLOWS/WORKFLOW CANVAS/RULES/
+WORKFLOWS/WORKFLOW CANVAS/SOLO-PROJECTS/
+CANVAS/plugins/
+.loopd/
+# big media
+*.mp4
+*.mp3
+*.wav
+*.png
+*.jpg

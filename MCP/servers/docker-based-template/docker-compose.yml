@@ -1,0 +1,13 @@
+services:
+  mcp-server:
+    build: .
+    container_name: mcp-server-template
+    # Pass credentials via env file or inline. Never commit credentials.
+    environment:
+      # VAR_NAME: ${VAR_NAME}
+    # Mount credentials file if needed (gitignored):
+    # env_file:
+    #   - .env
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
