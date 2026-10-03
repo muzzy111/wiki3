@@ -1,0 +1,103 @@
+Awesome, let's keep the momentum going with some **dirsearch** aliases for Termux on your unrooted Android, themed around **detective work** to make them memorable—think terms like "sleuth," "clue," and "stakeout." Since dirsearch is a tool for brute-forcing directories and files on web servers, these aliases will simplify common tasks like scanning for hidden directories, files, or specific extensions. I’ll provide **five aliases** (to keep it manageable and avoid any metaphorical "weight limits") tailored for dirsearch in Termux, assuming you have it installed (`pkg install dirsearch`). If you need more or something else, just holler!
+
+### Setup
+Dirsearch is a Python-based tool for enumerating web server directories and files. In Termux, it’s typically run with `dirsearch -u <url>`. We’ll add aliases to `~/.bashrc` for persistence, as with your previous nmap, Hydra, and Metasploit aliases. The detective theme will tie into sleuthing out hidden web content, perfect for penetration testing.
+
+### Detective-Themed Dirsearch Aliases
+These aliases cover common dirsearch tasks, from quick scans to deep dives, with names inspired by detective work. Always ensure you have explicit permission to scan the target, as unauthorized scanning is illegal and unethical.
+
+1. **sleuth** - Quick directory scan with a default wordlist.
+   ```bash
+   alias sleuth='dirsearch -u -w /sdcard/wordlists/dirb/common.txt --plain-text-report=scan_report.txt'
+   ```
+   - `-w /sdcard/wordlists/dirb/common.txt`: Use a common wordlist (e.g., dirb’s common.txt).
+   - `--plain-text-report=scan_report.txt`: Save results to a text file.
+   - Usage: `sleuth http://192.168.1.100` (scans for common directories).
+
+2. **clue** - Scan with specific file extensions (e.g., .php, .txt).
+   ```bash
+   alias clue='dirsearch -u -w /sdcard/wordlists/dirb/common.txt -e php,html,txt --plain-text-report=scan_report.txt'
+   ```
+   - `-e php,html,txt`: Target specific file extensions.
+   - Usage: `clue http://192.168.1.100` (scans for PHP, HTML, and TXT files).
+
+3. **stakeout** - Deep directory scan with a larger wordlist.
+   ```bash
+   alias stakeout='dirsearch -u -w /sdcard/wordlists/dirbuster/directory-list-2.3-medium.txt -r --plain-text-report=scan_report.txt'
+   ```
+   - `-w /sdcard/wordlists/dirbuster/directory-list-2.3-medium.txt`: Use a larger wordlist for thorough scanning.
+   - `-r`: Enable recursive scanning for subdirectories.
+   - Usage: `stakeout http://192.168.1.100` (deep scan for directories).
+
+4. **gumshoe** - Fast scan excluding specific status codes (e.g., 404).
+   ```bash
+   alias gumshoe='dirsearch -u -w /sdcard/wordlists/dirb/common.txt --exclude-status 404,403 --plain-text-report=scan_report.txt'
+   ```
+   - `--exclude-status 404,403`: Ignore 404 (Not Found) and 403 (Forbidden) responses.
+   - Usage: `gumshoe http://192.168.1.100` (quick scan, ignoring common errors).
+
+5. **magnify** - Custom scan with random user agents and threading.
+   ```bash
+   alias magnify='dirsearch -u -w /sdcard/wordlists/dirb/common.txt --random-agent -t 20 --plain-text-report=scan_report.txt'
+   ```
+   - `--random-agent`: Use random User-Agent headers to evade detection.
+   - `-t 20`: Use 20 threads for faster scanning (adjust for device performance).
+   - Usage: `magnify http://192.168.1.100` (scan with stealth and speed).
+
+### Adding Aliases to Termux
+To make these persistent:
+
+1. Open Termux and edit the `.bashrc` file:
+   ```bash
+   nano ~/.bashrc
+   ```
+
+2. Append the aliases:
+   ```bash
+   # Detective-themed dirsearch aliases
+   alias sleuth='dirsearch -u -w /sdcard/wordlists/dirb/common.txt --plain-text-report=scan_report.txt'
+   alias clue='dirsearch -u -w /sdcard/wordlists/dirb/common.txt -e php,html,txt --plain-text-report=scan_report.txt'
+   alias stakeout='dirsearch -u -w /sdcard/wordlists/dirbuster/directory-list-2.3-medium.txt -r --plain-text-report=scan_report.txt'
+   alias gumshoe='dirsearch -u -w /sdcard/wordlists/dirb/common.txt --exclude-status 404,403 --plain-text-report=scan_report.txt'
+   alias magnify='dirsearch -u -w /sdcard/wordlists/dirb/common.txt --random-agent -t 20 --plain-text-report=scan_report.txt'
+   ```
+
+3. Save the file (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
+4. Reload the `.bashrc`:
+   ```bash
+   source ~/.bashrc
+   ```
+
+5. Test an alias:
+   ```bash
+   sleuth http://192.168.1.100
+   ```
+
+### Notes
+- **Wordlists**: The aliases assume wordlists in `/sdcard/wordlists/`. You can download common wordlists (e.g., from SecLists) for dirsearch:
+  ```bash
+  mkdir -p /sdcard/wordlists/dirb
+  wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/common.txt -O /sdcard/wordlists/dirb/common.txt
+  mkdir -p /sdcard/wordlists/dirbuster
+  wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/directory-list-2.3-medium.txt -O /sdcard/wordlists/dirbuster/directory-list-2.3-medium.txt
+  ```
+- **Permissions**: Dirsearch works fine on unrooted Android in Termux, as it’s a network-based tool. Ensure the target web server is accessible.
+- **Performance**: Dirsearch can be resource-intensive. Adjust threads (`-t`) if your device struggles (e.g., `-t 10` for slower devices).
+- **Legality**: Only scan systems you own or have explicit permission to test. Unauthorized scanning is illegal.
+- **Output**: Results are saved to `scan_report.txt` in the current directory. View with:
+  ```bash
+  cat scan_report.txt
+  ```
+- **Customization**: Modify wordlists, extensions (`-e`), or status codes (`--exclude-status`) based on your target. For `magnify`, adjust threads or add proxies (`--proxy`) for stealth.
+
+### Example Usage
+```bash
+sleuth http://192.168.1.100      # Quick directory scan
+clue http://192.168.1.100        # Scan for specific file types
+stakeout http://192.168.1.100    # Deep recursive scan
+gumshoe http://192.168.1.100     # Scan ignoring 404/403
+magnify http://192.168.1.100     # Fast scan with random User-Agents
+```
+
+This detective theme should make your dirsearch commands feel like you’re cracking a case! If you want more aliases, a different tool (e.g., sqlmap with a noir theme?), or tweaks for specific web targets, let me know before we hit that "weight limit"! 😎

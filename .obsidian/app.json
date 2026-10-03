@@ -1,7 +1,4 @@
 {
-  "promptDelete": true,
-  "showUnsupportedFiles": true,
   "alwaysUpdateLinks": true,
-  "uriCallbacks": true,
-  "showLineNumber": false
+  "showUnsupportedFiles": true
 }

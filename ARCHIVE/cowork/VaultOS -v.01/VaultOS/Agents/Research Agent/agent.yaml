@@ -1,0 +1,11 @@
+name: "Research Agent"
+purpose: "Crawls notes, reads PDFs, and synthesizes literature"
+model_tier: "level_3_reasoning"
+capabilities:
+  can_read_notes: true
+  can_write_notes: true
+  can_call_llm: true
+  can_search_web: true
+  can_execute_python: false
+max_cost_limit_usd: 0.15
+tools_permitted: ["web-search", "pdf-reader"]

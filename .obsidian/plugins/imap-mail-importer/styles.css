@@ -1,0 +1,12 @@
+.email-importer-test-result {
+	margin-top: 0.5em;
+	padding: 0.25em 0;
+}
+
+.email-importer-test-success {
+	color: var(--text-success, green);
+}
+
+.email-importer-test-error {
+	color: var(--text-error, red);
+}

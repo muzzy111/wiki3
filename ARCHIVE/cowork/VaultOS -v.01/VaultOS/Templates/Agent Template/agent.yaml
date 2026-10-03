@@ -1,0 +1,11 @@
+name: "Agent Template"
+purpose: "Default scaffolding for new agents"
+model_tier: "level_2_standard" # level_1_tiny | level_2_standard | level_3_reasoning | level_4_premium
+capabilities:
+  can_read_notes: true
+  can_write_notes: false
+  can_call_llm: true
+  can_search_web: false
+  can_execute_python: false
+max_cost_limit_usd: 0.05
+tools_permitted: []

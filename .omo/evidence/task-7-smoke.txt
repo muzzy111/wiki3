@@ -1,0 +1,12 @@
+=== LOOP turnkey smoke 2026-10-03T01:14:02.5284152-04:00 ===
+Vault: C:\Vaults\wiki3
+[OK] 1.0COORDINATOR exists
+[OK] 2.0CODER exists
+[OK] 3.0RESEARCHER exists
+[OK] 4.0TOOLS exists
+[OK] 5.0MEMORY exists
+[OK] agents.yaml exists
+[OK] Plugins Index exists
+[INFO] hermes_bus daemon one-shot: deferred to Wave 3 (T16-T22)
+
+VERDICT: PASS

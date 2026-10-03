@@ -1,0 +1,50 @@
+{
+	"nodes":[
+		{"id":"84853cc451ddd3a9","type":"group","x":-3560,"y":-1140,"width":300,"height":300,"label":"Untitled group"},
+		{
+			"id":"0e2ea2a1c3bae420",
+			"type":"text",
+			"text":"> PS C:\\Users\\Admin> minimax\n  Node.js:  v22.20.0\n  Mavis:    v3.0.46 (electron)\n  启动中...\n  ✅ Daemon 运行中 (port: 15321)",
+			"styleAttributes":{},
+			"x":-320,
+			"y":-200,
+			"width":600,
+			"height":140
+		},
+		{
+			"id":"746b84f261ca3d71",
+			"type":"text",
+			"text":"[]()",
+			"styleAttributes":{},
+			"x":-520,
+			"y":-580,
+			"width":440,
+			"height":160
+		},
+		{
+			"id":"119b46a7ff661a77",
+			"type":"text",
+			"text":"",
+			"styleAttributes":{},
+			"x":-3820,
+			"y":-1100,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"5b50e6fe43f570c7",
+			"type":"text",
+			"text":"# <sup>***``***</sup>",
+			"styleAttributes":{},
+			"x":-4492,
+			"y":-1661,
+			"width":912,
+			"height":561
+		}
+	],
+	"edges":[],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

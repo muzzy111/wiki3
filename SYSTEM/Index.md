@@ -16,7 +16,7 @@ SYSTEM/
 +-- Index.md                    this file
 +-- templates/                  canonical templates (AGENT, Persona, Memory, SKILL)
 +-- LOCK/                       read-only protected files
-+-- STYTEM RECORD/              append-only system log (note: misspelled, rename planned)
++-- SYSTEM RECORD/              append-only system log
 +-- SYSTEM GOALS/               what the system is for
 +-- SYSTEM GRAPH/               structural map (now 5-role)
 +-- SYSTEM RULES/               binding rule set
@@ -40,7 +40,7 @@ If a user request conflicts with a system rule, the Coordinator explains and pro
 - Goals: `SYSTEM GOALS/Goals.md`
 - Rules: `SYSTEM RULES/Rules.md`
 - Graph: `SYSTEM GRAPH/Graph.md`
-- Record: `STYTEM RECORD/Record.md`
+- Record: `SYSTEM RECORD/Record.md`
 - Lock: `LOCK/Lock.md`
 - Templates: `templates/Index.md`
 - Registry: `agents.yaml`

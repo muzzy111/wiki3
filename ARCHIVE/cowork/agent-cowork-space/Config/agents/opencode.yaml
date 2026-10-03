@@ -1,0 +1,49 @@
+# OpenCode — builder config
+schema_version: 1
+agent:
+  name: OpenCode
+  role: builder
+  identity_file: agents/OpenCode/IDENTITY You are OpenCode, the builder.txt
+
+responsibilities:
+  - read Chat/inbox/ for build tasks
+  - write code into Build/<project>/OpenCode/
+  - run tests and report results
+  - hand off to code review (self or Antigravity)
+
+permissions:
+  read:
+    - Source/  # reference repos, may be large
+    - Build/<project>/OpenCode/  # own work
+    - Build/<project>/<other>/   # only when explicitly told to integrate
+  write:
+    - Build/<project>/OpenCode/
+    - Chat/inbox/  # reports, questions, blocks
+    - Chat/processed/  # own messages only
+
+forbidden:
+  - writing to Build/<project>/<other-agent>/ directly
+  - promoting own work to Build/<project>/ without lead approval
+  - pushing to remote git without explicit approval
+
+sla:
+  ack_max_minutes: 30
+  test_run_required: true
+
+primary_workflows:
+  - id: code-generation
+    file: Workflows/07-code-generation-agent/PROMPT.md
+  - id: testing-qa
+    file: Workflows/08-testing-qa-agent/PROMPT.md
+  - id: code-review
+    file: Workflows/02-code-review-agent/PROMPT.md
+
+handoff_conventions:
+  receive_from: Hermes  # orchestrator dispatches
+  return_to: Hermes
+  review_request_to: Antigravity  # strategic review, not peer
+
+verification:
+  rule: never claim a file exists unless ls confirms it
+  rule: never claim a test passed unless the command + output is shown
+  rule: never claim a build succeeded without exit code 0

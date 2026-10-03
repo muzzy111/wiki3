@@ -1,0 +1,41 @@
+[project]
+name = "vault-scraper"
+version = "0.1.0"
+description = "Frontend scraper for the agentic-knowledge-engine inbox"
+requires-python = ">=3.11"
+readme = "README.md"
+authors = [{ name = "Admin" }]
+
+dependencies = [
+    "typer[all]>=0.12",
+    "rich>=13",
+    "httpx[http2]>=0.27",
+    "playwright>=1.44",
+    "trafilatura>=1.9",
+    "beautifulsoup4>=4.12",
+    "feedparser>=6.0",
+    "asyncpraw>=7.7",
+    "pydantic-settings>=2.2",
+    "pyyaml>=6.0",
+    "lxml>=5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[project.scripts]
+vault-scraper = "vault_scraper.cli:app"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["vault_scraper*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

@@ -1,0 +1,108 @@
+{
+  "_about": "Host integration configs for the n8n MCP server. Choose the file matching your host agent and merge the `mcpServers.n8n` block into that host's existing config.",
+
+  "claude_desktop_config": {
+    "_location_windows": "%APPDATA%\\Claude\\claude_desktop_config.json",
+    "_location_macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+    "_location_linux": "~/.config/Claude/claude_desktop_config.json",
+    "mcpServers": {
+      "n8n": {
+        "command": "docker",
+        "args": [
+          "run",
+          "-i",
+          "--rm",
+          "-e", "N8N_API_URL",
+          "-e", "N8N_API_KEY",
+          "mcp/n8n:latest"
+        ],
+        "env": {
+          "N8N_API_URL": "http://host.docker.internal:5678",
+          "N8N_API_KEY": "n8n_api_REPLACE_WITH_YOUR_KEY"
+        }
+      }
+    }
+  },
+
+  "claude_code_mcp_config": {
+    "_location": ".mcp.json (project root) or ~/.claude.json (user-level)",
+    "mcpServers": {
+      "n8n": {
+        "command": "docker",
+        "args": [
+          "run", "-i", "--rm",
+          "-e", "N8N_API_URL",
+          "-e", "N8N_API_KEY",
+          "mcp/n8n:latest"
+        ],
+        "env": {
+          "N8N_API_URL": "http://host.docker.internal:5678",
+          "N8N_API_KEY": "n8n_api_REPLACE_WITH_YOUR_KEY"
+        }
+      }
+    }
+  },
+
+  "vscode_mcp_config": {
+    "_location": ".vscode/mcp.json (workspace) or user settings.json (user-level)",
+    "servers": {
+      "n8n": {
+        "command": "docker",
+        "args": [
+          "run", "-i", "--rm",
+          "-e", "N8N_API_URL",
+          "-e", "N8N_API_KEY",
+          "mcp/n8n:latest"
+        ],
+        "env": {
+          "N8N_API_URL": "http://host.docker.internal:5678",
+          "N8N_API_KEY": "n8n_api_REPLACE_WITH_YOUR_KEY"
+        }
+      }
+    }
+  },
+
+  "cursor_mcp_config": {
+    "_location": "~/.cursor/mcp.json",
+    "mcpServers": {
+      "n8n": {
+        "command": "docker",
+        "args": [
+          "run", "-i", "--rm",
+          "-e", "N8N_API_URL",
+          "-e", "N8N_API_KEY",
+          "mcp/n8n:latest"
+        ],
+        "env": {
+          "N8N_API_URL": "http://host.docker.internal:5678",
+          "N8N_API_KEY": "n8n_api_REPLACE_WITH_YOUR_KEY"
+        }
+      }
+    }
+  },
+
+  "continue_dev_config": {
+    "_location": "~/.continue/config.json",
+    "experimental": {
+      "modelContextProtocolServers": [
+        {
+          "name": "n8n",
+          "transport": {
+            "type": "stdio",
+            "command": "docker",
+            "args": [
+              "run", "-i", "--rm",
+              "-e", "N8N_API_URL",
+              "-e", "N8N_API_KEY",
+              "mcp/n8n:latest"
+            ],
+            "env": {
+              "N8N_API_URL": "http://host.docker.internal:5678",
+              "N8N_API_KEY": "n8n_api_REPLACE_WITH_YOUR_KEY"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

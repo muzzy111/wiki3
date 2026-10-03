@@ -1,0 +1,5 @@
+$out = "C:\Users\Admin\Documents\GitHub\Chat\repo-manifest.md"
+"# Repo Manifest`n`nGenerated: $(Get-Date)`n" | Set-Content $out
+"``````" | Add-Content $out
+git -C "C:\Users\Admin\Documents\GitHub" ls-tree -r --name-only HEAD | Add-Content $out
+"``````" | Add-Content $out

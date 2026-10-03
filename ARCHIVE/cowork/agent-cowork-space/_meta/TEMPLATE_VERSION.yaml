@@ -1,0 +1,38 @@
+# Template version metadata — pure YAML
+schema_version: 1
+template:
+  name: agent-cowork-space
+  version: 1.0.0
+  status: stable
+  born: 2026-06-30
+  parent_template: VaultOS-v.02
+  license: MIT
+  maintainer: Muzzy (hermundo)
+
+# Compatibility matrix
+compatibility:
+  protocol: 1.0.0
+  chat_schema: 1
+  state_schema: 1
+  workflow_manifest: 1
+  identity_file_format: 1
+
+# Upgrade policy
+upgrade_policy:
+  patch: typos and additional examples; no schema changes
+  minor: new optional fields, new message phases; backwards-compatible
+  major: breaking schema changes; migration script required
+
+# Bootstrap verification (3-read check)
+bootstrap_check:
+  - path: Config/registry.yaml
+    test: parses as YAML and lists >= 1 agent
+  - path: PROTOCOL.md
+    test: exists and contains the phase enum
+  - path_regex: 'agents/.*/IDENTITY You are .*\.txt'
+    test: every agent home has an IDENTITY file matching the pattern
+
+# On failure
+on_failure:
+  write_to: State/verifier-reports/FAIL-bootstrap.md
+  action: mark space unbootstrapped

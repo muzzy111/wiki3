@@ -1,0 +1,18 @@
+{
+  "accentColor": "#14e6b1",
+  "cssTheme": "PLN",
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "anti-graph",
+    "graph-depth-color",
+    "graph-polish",
+    "vault-theme",
+    "canvas-material",
+    "anti-obsidian-cards",
+    "thick-borders"
+  ],
+  "nativeMenus": true,
+  "interfaceFontFamily": "SimSun-ExtG",
+  "baseFontSize": 18,
+  "baseFontSizeAction": true
+}

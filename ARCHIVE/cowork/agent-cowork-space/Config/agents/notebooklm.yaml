@@ -1,0 +1,49 @@
+# NotebookLM — knowledge retriever config
+schema_version: 1
+agent:
+  name: NotebookLM
+  role: retriever
+  identity_file: agents/NotebookLM/IDENTITY You are NotebookLM, the knowledge retriever.txt
+
+responsibilities:
+  - query private NotebookLM notebooks
+  - return cited passages (no fabrication)
+  - synthesize long-context answers from retrieved chunks
+
+permissions:
+  read:
+    - private corpus (via notebooklm_mcp tool, NOT via filesystem)
+    - Chat/inbox/  # incoming queries
+  write:
+    - Chat/inbox/  # responses
+    - Chat/processed/
+
+forbidden:
+  - writing private corpus contents to disk (security boundary)
+  - quoting without source citation
+  - extrapolating beyond what the corpus supports
+
+sla:
+  ack_max_minutes: 60
+  max_response_tokens: 4000  # summary, not full dump
+
+primary_workflows:
+  - id: knowledge-retrieval
+    file: Workflows/knowledge-retrieval/PROMPT.md
+  - id: document-summarization
+    file: Workflows/09-document-processing-agent/PROMPT.md
+
+output_format:
+  structure:
+    - direct_answer
+    - supporting_passages  # verbatim quotes
+    - source  # notebook name + entry id
+    - confidence  # high | medium | low
+  rule: every factual claim must have a source line
+
+handoff_conventions:
+  receive_from: Hermes, Antigravity
+  return_to: same as sender
+
+secrets:
+  mcp_credentials: Config/secrets/notebooklm.env  # .gitignored

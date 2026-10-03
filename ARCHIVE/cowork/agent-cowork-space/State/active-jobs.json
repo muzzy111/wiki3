@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "last_updated": "2026-06-30T10:00:00-04:00",
+  "description": "Currently active jobs. Each entry has an owner agent and a status. Updated by patch, never rewritten whole.",
+  "jobs": [
+    {
+      "id": "job-bootstrap-001",
+      "title": "Bootstrap agent-cowork-space template",
+      "owner": "Hermes",
+      "status": "in-progress",
+      "started": "2026-06-30T09:00:00-04:00",
+      "phase": "template-bootstrap",
+      "related": [
+        "Decisions/0001-template-bootstrap.md",
+        "_meta/CHANGELOG.md"
+      ],
+      "blockers": [],
+      "notes": "Initial creation. Verifier check pending once all agent homes are populated."
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "by_status": {
+      "open": 0,
+      "in-progress": 1,
+      "blocked": 0,
+      "closed": 0
+    },
+    "by_owner": {
+      "Hermes": 1,
+      "OpenCode": 0,
+      "Antigravity": 0,
+      "NotebookLM": 0
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "last_synced_with": "C:\\Users\\Admin\\Documents\\hlp",
+  "synced_at": "2026-06-30T10:00:00-04:00",
+  "workflows": [
+    {"id": "01-research-agent",           "path": "01-research-agent/PROMPT.md",          "primary_agents": ["Antigravity"],         "category": "research"},
+    {"id": "02-code-review-agent",        "path": "02-code-review-agent/PROMPT.md",       "primary_agents": ["OpenCode", "Antigravity"], "category": "code"},
+    {"id": "03-content-creation-agent",   "path": "03-content-creation-agent/PROMPT.md",  "primary_agents": ["Hermes"],              "category": "content"},
+    {"id": "04-data-analysis-agent",      "path": "04-data-analysis-agent/PROMPT.md",     "primary_agents": ["OpenCode"],            "category": "data"},
+    {"id": "05-automation-agent",         "path": "05-automation-agent/PROMPT.md",        "primary_agents": ["OpenCode"],            "category": "automation"},
+    {"id": "06-multi-agent-orchestration","path": "06-multi-agent-orchestration/PROMPT.md","primary_agents": ["Hermes"],            "category": "orchestration"},
+    {"id": "07-code-generation-agent",    "path": "07-code-generation-agent/PROMPT.md",   "primary_agents": ["OpenCode"],            "category": "code"},
+    {"id": "08-testing-qa-agent",         "path": "08-testing-qa-agent/PROMPT.md",        "primary_agents": ["OpenCode"],            "category": "code"},
+    {"id": "09-document-processing-agent","path": "09-document-processing-agent/PROMPT.md","primary_agents": ["NotebookLM", "OpenCode"], "category": "data"},
+    {"id": "10-system-admin-agent",       "path": "10-system-admin-agent/PROMPT.md",      "primary_agents": ["OpenCode"],            "category": "ops"},
+    {"id": "knowledge-retrieval",         "path": "knowledge-retrieval/PROMPT.md",        "primary_agents": ["NotebookLM"],          "category": "retrieval", "note": "space-specific, not in hlp/"},
+    {"id": "strategic-review",            "path": "strategic-review/PROMPT.md",           "primary_agents": ["Antigravity"],         "category": "review",   "note": "space-specific, not in hlp/"},
+    {"id": "checkpoint",                  "path": "checkpoint/PROMPT.md",                 "primary_agents": ["Antigravity"],         "category": "review",   "note": "space-specific, not in hlp/"},
+    {"id": "decision-locking",            "path": "decision-locking/PROMPT.md",           "primary_agents": ["Hermes"],              "category": "decision", "note": "space-specific, not in hlp/"},
+    {"id": "plan",                        "path": "plan/PROMPT.md",                       "primary_agents": ["Hermes"],              "category": "planning", "note": "space-specific, not in hlp/"}
+  ],
+  "summary": {
+    "total": 15,
+    "by_category": {
+      "research": 1,
+      "code": 3,
+      "content": 1,
+      "data": 2,
+      "automation": 1,
+      "orchestration": 1,
+      "ops": 1,
+      "retrieval": 1,
+      "review": 2,
+      "decision": 1,
+      "planning": 1
+    }
+  }
+}

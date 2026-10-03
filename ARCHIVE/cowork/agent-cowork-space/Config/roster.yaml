@@ -1,0 +1,47 @@
+# Roster — human-readable summary
+# Sibling file roster.yaml is the machine-readable canonical source.
+
+description: >
+  Quick lookup of who's in the space and what they do.
+
+agents:
+  - name: Hermes
+    role: Orchestrator
+    primary_workflows:
+      - planning
+      - orchestration
+      - decision-locking
+    response_sla: 15m
+
+  - name: OpenCode
+    role: Builder
+    primary_workflows:
+      - code-generation
+      - testing-qa
+      - code-review
+    response_sla: 30m
+
+  - name: Antigravity
+    role: Strategist
+    primary_workflows:
+      - research
+      - strategic-review
+      - checkpoints
+    response_sla: 30m
+
+  - name: NotebookLM
+    role: Retriever
+    primary_workflows:
+      - knowledge-retrieval
+      - document-summarization
+    response_sla: 60m
+
+status_legend:
+  active: taking work
+  paused: temporarily offline (awaiting input)
+  retired: no longer in the space; work is in Archive/
+
+how_to_read:
+  role: human shorthand; full identity is in each agent's IDENTITY.txt
+  primary_workflows: maps to entries in Workflows/
+  response_sla: max time before agent must ack an inbox message

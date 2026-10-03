@@ -1,0 +1,97 @@
+<p><strong>User</strong> : Using this notebook as a source create a step by step plan to build the agent os described within
+<strong>Gemini</strong> : Based on the architectural blueprints, technical reviews, and security audits provided in your notebook, here is the comprehensive, sequenced, step-by-step plan to build  <strong>Agent OS</strong> .
+[cite_start]This consolidated plan merges the core architectural design with critical fixes (from the Claude 4.6 review) and hardware/security optimizations (from the Aetheris audit) to ensure a successful, robust build tailored for your 4-core, 32GB RAM, 2GB GPU workstation laptop[cite: 133, 137].</p>
+<hr>
+<h4 id="phase-0-environment-setup-global-configuration">🛠️ Phase 0: Environment Setup &amp; Global Configuration</h4>
+<p>[cite_start] <strong>Goal:</strong>  Establish a working repository structure, dependency management, and base security configurations before writing execution logic[cite: 337].</p>
+<h5 id="step-1-initialize-the-monorepo-version-control">Step 1: Initialize the Monorepo &amp; Version Control</h5>
+<ul>
+<li>[cite_start]Set up a local feature-based monorepo structure[cite: 11, 79].</li>
+<li>[cite_start]Initialize Git and configure  <strong>Alembic</strong>  for automated database schema migrations from day one to handle rapid schema iteration smoothly[cite: 315, 316, 380].</li>
+</ul>
+<h5 id="step-2-implement-environment-configuration-app-config-py">Step 2: Implement Environment Configuration (app/config.py)</h5>
+<ul>
+<li>[cite_start]Write the foundational Pydantic Settings configuration file[cite: 317, 337].</li>
+<li>[cite_start]Map environmental variables cleanly to your OpenRouter credentials and local environment specs[cite: 318]. [cite_start]Set up an explicit system boot sequence within a FastAPI lifespan handler to ensure correct startup ordering[cite: 311, 312, 379].</li>
+</ul>
+<hr>
+<h4 id="phase-1-storage-layer-security-hardening">🗄️ Phase 1: Storage Layer &amp; Security Hardening</h4>
+<p>[cite_start] <strong>Goal:</strong>  Initialize a local-first, low-latency dual-memory layout with strict security parameters and dead-lock protections[cite: 38, 40, 212].</p>
+<h5 id="step-3-configure-the-secure-vault-wallet-system">Step 3: Configure the Secure Vault &amp; Wallet System</h5>
+<ul>
+<li>[cite_start]Build the secure keystore utility using local encrypted storage (native OS keyring or encrypted Fernet keys)[cite: 23, 27].</li>
+<li>[cite_start] <strong>Security Fix:</strong>  Do not initialize cryptographic cipher keys using a default fallback password[cite: 383]. [cite_start]Force the user to unlock the wallet on initial load, returning unlocked: false until a master key is set[cite: 384, 385]. [cite_start]Block query parameter authentication entirely; enforce authorization headers for all credentials[cite: 405].</li>
+</ul>
+<h5 id="step-4-setup-relational-sqlite-database-app-database-py">Step 4: Setup Relational SQLite Database (app/database.py)</h5>
+<ul>
+<li>[cite_start]Implement the SQLite layout (via SQLAlchemy/Prisma) to track agent definitions, workflow steps, execution history, and MCP configurations[cite: 40, 43, 61].</li>
+<li>[cite_start]Include the missing token_usage metrics tracking table required for the cost dashboard and circuit breaker[cite: 339, 378].</li>
+<li>[cite_start] <strong>Concurrency Fix:</strong>  Enable WAL (Write-Ahead Logging) mode (PRAGMA journal_mode=WAL) on connection initialization to prevent SQLite from deadlocking under multi-agent concurrent write operations[cite: 293, 294, 372]. [cite_start]Enforce conn.commit() strictly after all write transactions so states persist[cite: 284, 285, 366].</li>
+</ul>
+<h5 id="step-5-setup-embedded-vector-memory-database-lancedb">Step 5: Setup Embedded Vector Memory Database (LanceDB)</h5>
+<ul>
+<li>[cite_start]Integrate LanceDB as an embedded serverless layer storing data in Apache Arrow format[cite: 42]. [cite_start]Configure it to auto-create missing tables upon initialization to prevent system boot crashes[cite: 312, 344].</li>
+</ul>
+<hr>
+<h4 id="phase-2-core-event-bus-type-safe-communication">🔌 Phase 2: Core Event Bus &amp; Type-Safe Communication</h4>
+<p>[cite_start] <strong>Goal:</strong>  Establish a lightweight, asynchronous real-time WebSocket routing bus with structural type guarantees[cite: 10, 12, 212].</p>
+<h5 id="step-6-define-pydantic-v2-type-validation-guards-app-api-schemas-messages-py">Step 6: Define Pydantic v2 Type-Validation Guards (app/api/schemas/messages.py)</h5>
+<ul>
+<li>[cite_start]Enforce a strict, versioned JSON-RPC 2.0-inspired messaging envelope structure to isolate frontend mapping from backend processing logic[cite: 17, 18].</li>
+<li>[cite_start] <strong>Pydantic Fix:</strong>  Ensure message_type is declared  <em>before</em>  the payload block within the Pydantic schema model so that the discriminator/validator has proper access during parsing[cite: 341, 342, 371].</li>
+</ul>
+<h5 id="step-7-build-the-websocket-connection-broker-app-core-broker-py">Step 7: Build the WebSocket Connection Broker (app/core/broker.py)</h5>
+<ul>
+<li>[cite_start]Develop a concurrency-safe broker connecting both UI streams and external/decoupled agents[cite: 81, 82].</li>
+<li>[cite_start] <strong>WebSocket Fix:</strong>  Implement a background keep-alive heartbeat loop to detect disconnected sockets immediately[cite: 295, 373]. [cite_start]Ensure the broadcast function aggressively purges dead connections rather than accumulating them or throwing unhandled errors[cite: 296, 297, 373]. [cite_start]Add message rate limiting to prevent running agent loops from slamming the UI[cite: 301, 302].</li>
+</ul>
+<hr>
+<h4 id="phase-3-hardware-optimized-local-utility-models">🧠 Phase 3: Hardware-Optimized Local Utility Models</h4>
+<p>[cite_start] <strong>Goal:</strong>  Implement a split-brain compute architecture that optimizes your 2GB GPU for privacy and minimizes external cloud costs[cite: 137, 140, 161].</p>
+<h5 id="step-8-build-the-local-two-stage-retrieve-and-rerank-pipeline-app-services-memory-py">Step 8: Build the Local Two-Stage Retrieve-and-Rerank Pipeline (app/services/memory.py)</h5>
+<ul>
+<li>[cite_start] <strong>VRAM Fix:</strong>  To fit inside the tight 2GB VRAM constraint alongside Windows runtime overhead, load your local embedding (bge-small-en-v1.5) and cross-encoder/reranker (ms-marco-MiniLM-L6-v2) models using  <strong>ONNX Runtime</strong>  or  <strong>INT8/FP16 quantization</strong> [cite: 390, 391, 393, 394, 408].</li>
+<li>[cite_start]Configure  <strong>Stage 1 (Local):</strong>  Pull the top 20 relevant chunks from LanceDB via embeddings[cite: 186].</li>
+<li>[cite_start]Configure  <strong>Stage 2 (Local):</strong>  Score those candidates down to the top 2 or 3 hyper-verified contexts using the cross-encoder directly on the local GPU[cite: 187, 188, 206]. [cite_start]Only pass these final pruned chunks to your external LLM provider[cite: 189].</li>
+</ul>
+<hr>
+<h4 id="phase-4-model-context-protocol-mcp-utility-broker">🛠️ Phase 4: Model Context Protocol (MCP) Utility Broker</h4>
+<p>[cite_start] <strong>Goal:</strong>  Create a uniform abstraction layer for attaching dynamic execution tools via Model Context Protocol[cite: 55].</p>
+<h5 id="step-9-build-the-unified-mcp-transport-bridge-app-services-mcp_host-py">Step 9: Build the Unified MCP Transport Bridge (app/services/mcp_host.py)</h5>
+<ul>
+<li>[cite_start]Abstract tool interfaces so agents treat local CLI tools (stdio) and containerized services (SSE over HTTP) identically[cite: 116, 121, 278].</li>
+<li>[cite_start] <strong>Subprocess Fix:</strong>  Ensure all local stdio sub-process calls use shlex.split() for command strings so that quoted file path arguments do not crash the runtime execution[cite: 288, 343, 368]. [cite_start]Ensure uuid4 is explicitly imported[cite: 287, 367].</li>
+<li>[cite_start] <strong>SSE Handshake Fix:</strong>  Implement the SSE connection as a true long-lived streaming context manager (httpx.AsyncClient().stream()) instead of a single hanging .get() call[cite: 289, 291, 368].</li>
+<li>[cite_start] <strong>Health and Timeout Fix:</strong>  Add an explicit asyncio.wait_for(..., timeout=30.0) block on tool reads so a frozen or crashed tool subprocess cannot lock up the central system loop indefinitely[cite: 298, 299, 374].</li>
+</ul>
+<h5 id="step-10-docker-sandbox-isolation-security-guardrails">Step 10: Docker Sandbox Isolation &amp; Security Guardrails</h5>
+<ul>
+<li>[cite_start]Create standardized, configuration-driven docker-compose.yaml templates to spin up your isolated tools (e.g., Python code executors)[cite: 122]. [cite_start]Remove any deprecated version: keys from the YAML files[cite: 303, 304, 375].</li>
+<li>[cite_start] <strong>Zero-Trust Security:</strong>  Lock container volumes explicitly to an isolated sandbox directory (e.g., ./sandbox) with no network visibility into the host root[cite: 148, 149, 269]. [cite_start]Combine your regex denylists with structural tool-call schema allowlists within the execute_tool router to prevent indirect prompt injections[cite: 147, 150, 327, 328].</li>
+</ul>
+<hr>
+<h4 id="phase-5-resilient-llm-gateway-token-compaction">💰 Phase 5: Resilient LLM Gateway &amp; Token Compaction</h4>
+<p>[cite_start] <strong>Goal:</strong>  Connect to OpenRouter while mitigating API cost vulnerabilities, network drops, and context window pollution[cite: 157, 165, 171].</p>
+<h5 id="step-11-implement-the-resilient-api-wrapper-app-core-llm_gateway-py">Step 11: Implement the Resilient API Wrapper (app/core/llm_gateway.py)</h5>
+<ul>
+<li>[cite_start]Integrate exponential backoff, retry mechanisms, and rate control structures into your OpenRouter API client to handle network flickers gracefully[cite: 165, 166]. [cite_start]Add token tracking decorators using tiktoken (noting in code comments that cl100k_base serves as an approximation for non-OpenAI tokenizers)[cite: 199, 329, 331].</li>
+</ul>
+<h5 id="step-12-build-the-context-compaction-middleware">Step 12: Build the Context Compaction Middleware</h5>
+<ul>
+<li>[cite_start] <strong>Context Fix:</strong>  Implement an index-based backwards-walking FIFO context compactor[cite: 208, 345, 370]. [cite_start]Ensure it retains the most  <em>recent</em>  system interactions and tool calls in full detail, while compressing historical tool responses (older than the last 3 calls) into single-line semantic metadata blocks[cite: 178, 179, 346].</li>
+</ul>
+<hr>
+<h4 id="phase-6-dag-orchestration-engine-self-improvement">🎛️ Phase 6: DAG Orchestration Engine &amp; Self-Improvement</h4>
+<p>[cite_start] <strong>Goal:</strong>  Run complex multi-agent workflows, implement state safety, and execute post-run optimization passes[cite: 8, 64].</p>
+<h5 id="step-13-build-the-non-linear-dag-orchestrator-app-services-orchestrator-py">Step 13: Build the Non-Linear DAG Orchestrator (app/services/orchestrator.py)</h5>
+<ul>
+<li>[cite_start] <strong>DAG Upgrade:</strong>  Move past linear state transitions[cite: 395]. [cite_start]Update the workflow engine to process blueprints as Directed Acyclic Graphs (DAGs) capable of parallel branches, conditional loops, and synchronization join-gates[cite: 396, 397, 398].</li>
+<li>[cite_start] <strong>Hardware Guardrail:</strong>  Enforce a strict sequential routing mechanism inside the DAG executor—only one agent&#39;s LLM context may fire at any single moment to keep CPU thrashing near zero[cite: 145, 146, 280, 389]. [cite_start]Ensure json is imported explicitly to avoid NameError faults at runtime[cite: 292, 369].</li>
+<li>[cite_start] <strong>Active Session Drift Reconciliation:</strong>  Add a startup loop that validates if the OS process PID tied to a stored &#34;active&#34; SQLite session is actually running[cite: 399, 401]. [cite_start]If a host crash killed the PTY shell, automatically reconcile the database state and mark the step as failed with an explicit error log[cite: 400, 402].</li>
+</ul>
+<h5 id="step-14-define-the-critic-self-improvement-loop-app-services-critic-py">Step 14: Define the Critic Self-Improvement Loop (app/services/critic.py)</h5>
+<ul>
+<li>[cite_start]Build the background optimization routine triggered whenever a workflow concludes[cite: 9, 65].</li>
+<li>[cite_start] <strong>Critic Optimization Fix:</strong>  Prior to sending an execution history trace to your Critic model, run it through the context compactor and cap the query log at a strict LIMIT (e.g., 100 rows) so that raw files do not overflow the model&#39;s context window[cite: 305, 306, 307, 308, 376].</li>
+<li>[cite_start] <strong>Parsing Fix:</strong>  Do not use hardcoded timestamp strings (use datetime.now(timezone.utc).isoformat())[cite: 332, 369, 377]. [cite_start]Wrap your json.loads() extraction block in a regex text cleaner to strip out markdown code fences (e.g., <a href="http://googleusercontent.com/immersive_entry_chip/0">http://googleusercontent.com/immersive_entry_chip/0</a></li>
+</ul>

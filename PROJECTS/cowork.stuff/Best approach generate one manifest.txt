@@ -1,0 +1,87 @@
+Best approach: **generate one manifest file once, drop it in `Chat\`, and have all 3 agents read it instead of crawling.** Pick your method based on what you have available:
+
+---
+
+## Option 1 — Git native (fastest, cleanest)
+
+Since it's a GitHub repo, this only lists tracked files — no node_modules, no build artifacts, no noise:
+
+```bash
+git ls-tree -r --name-only HEAD > C:\Users\Admin\Documents\GitHub\Chat\repo-manifest.txt
+```
+
+Runs in seconds. Already filtered to what matters.
+
+---
+
+## Option 2 — Windows tree command (visual structure)
+
+```cmd
+tree C:\Users\Admin\Documents\GitHub /F /A > C:\Users\Admin\Documents\GitHub\Chat\repo-manifest.txt
+```
+
+Gives you the full folder/file tree. Add exclusions with a PowerShell wrapper if you want to strip `node_modules`, `.git`, etc.
+
+---
+
+## Option 3 — PowerShell with exclusions and metadata (best signal-to-noise)
+
+```powershell
+$root = "C:\Users\Admin\Documents\GitHub"
+$exclude = @('.git','node_modules','__pycache__','.venv','dist','build','Hermes','OpenCode','Antigravity','Chat')
+
+Get-ChildItem -Path $root -Recurse -File |
+  Where-Object { 
+    $_.FullName -split '\\' | Where-Object { $exclude -contains $_ } | Measure-Object | Select-Object -ExpandProperty Count
+    ($_.FullName -split '\\' | ForEach-Object { $exclude -contains $_ }) -notcontains $true
+  } |
+  Select-Object @{N='Path';E={$_.FullName.Replace($root,'')}}, @{N='Size_KB';E={[math]::Round($_.Length/1KB,1)}}, Extension |
+  Sort-Object Path |
+  Export-Csv "$root\Chat\repo-manifest.csv" -NoTypeInformation
+```
+
+Gives agents path, file size, and extension — enough to prioritize without reading a single file.
+
+---
+
+## Recommended: git ls-tree → markdown wrapper
+
+Run this once:
+
+```powershell
+$out = "C:\Users\Admin\Documents\GitHub\Chat\repo-manifest.md"
+"# Repo Manifest`n``Generated: $(Get-Date)``n" | Set-Content $out
+"``````" | Add-Content $out
+git -C "C:\Users\Admin\Documents\GitHub" ls-tree -r --name-only HEAD | Add-Content $out
+"``````" | Add-Content $out
+```
+
+Then update all 3 prompts to open with:
+
+```
+BEFORE ANY SURVEY WORK, read this file completely:
+  C:\Users\Admin\Documents\GitHub\Chat\repo-manifest.md
+
+This is the full repo file tree. Use it as your map.
+Do NOT crawl the repo yourself. Reference specific files by path
+and only open individual files when you need to read actual code.
+```
+
+That way agents spend tokens on **analysis**, not directory walking. One file, shared by all three, generated in under 5 seconds.
+
+Yes. Replace every instance of walk/crawl language with manifest-read instructions. Here's exactly what to swap:
+
+REMOVE (appears in all 3 prompts):
+REPO SURVEY PATH: C:\Users\Admin\Documents\GitHub\
+Exclude these folders from survey scope: Hermes\ OpenCode\ Antigravity\ Chat\
+Walk the full repo. For every folder and file you find...
+REPLACE WITH (same block, all 3 prompts):
+REPO SURVEY PATH: C:\Users\Admin\Documents\GitHub\Chat\repo-manifest.md
+
+READ THIS FILE FIRST. It is the complete repo file tree.
+Do NOT crawl directories yourself. Use the manifest as your map.
+Only open individual files when you need to inspect actual code —
+and only files the manifest confirms exist.
+
+That's the only change needed. Everything else in the prompts — the phase structure, the Chat file handoff, the decision protocol — stays identical. The agents go from "walk everything" to "read one file, then selectively open only what's relevant to your analysis angle."
+Antigravity especially benefits since its job is pattern recognition — it can do most of its survey work from the manifest alone without opening a single file. OpenCode will still need to spot-check individual files for code quality, but it does that surgically instead of blindly.

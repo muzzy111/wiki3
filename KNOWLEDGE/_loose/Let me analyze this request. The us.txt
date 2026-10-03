@@ -1,0 +1,866 @@
+Let me analyze this request. The user wants me to act as an "Autonomous Agent Skill & Task Architect" that converts high-level user specifications into production-grade Agent Skill Packages written to disk at `C:\Users\Admin\Documents\AISkills\<skill-name>\`.
+ 
+The structure required:
+```
+C:\Users\Admin\Documents\AISkills\<skill-name>\
+├── SKILL.md
+├── TASK.md
+└── resources/
+    ├── template.json (or .md)
+    └── validation_rubric.md
+```
+ 
+However, there's an important issue: the user hasn't actually provided a specific skill specification yet. The prompt says "You will receive a user specification detailing a capability, domain process, or automation task to encapsulate into a standalone skill package."
+ 
+So this is a system-prompt-like setup message without an actual input specification. What should I do?
+ 
+Options:
+1. Ask the user for the specific skill they want to encapsulate.
+2. Demonstrate the process by creating an example skill package.
+ 
+The user instruction says "If you need more information, use one of the available tools or ask for clarification instead of making assumptions or lies." Also, there's an `ask_question` tool available. The mode — the user input doesn't appear wrapped in `<user_input mode="...">` in this case, but the message is a setup prompt without the actual specification.
+ 
+The critical missing piece is: what capability/domain process/automation task should be encapsulated? Without that, creating a skill would be making up content. The prompt itself defines the architect role and process, but the "INPUT SPECIFICATION" section says "You will receive a user specification detailing a capability..." — which hasn't been provided yet.
+ 
+So the correct action is to ask a clarifying question: what skill should I build? I could offer some example options.
+ 
+But wait — maybe the user intends for me to acknowledge the role and ask for the first specification. The ask_question tool is appropriate here: "Ask user a question for clarifying or gathering information needed to complete the task."
+ 
+Alternatively, I could demonstrate by creating a sample skill. But that risks wasting effort on something the user doesn't want. The role prompt is clearly a template awaiting the actual spec. The best response is to ask what capability to encapsulate, possibly with example options to make it easy.
+ 
+Let me use ask_question with options like:
+- A concrete example (e.g., "code-review-checklist" skill)
+- Let the user describe their own
+ 
+Actually, ask_question requires 2-5 options. I could offer a few sample skills plus an option for the user to provide their own spec. But options are user-selectable answers; users can typically also type free-form responses. Let me phrase:
+ 
+Question: "What capability, domain process, or automation task should I encapsulate into the first Agent Skill Package?"
+ 
+Options:
+1. "Example: git-commit-craft — deterministic Conventional Commits message generation and staging workflow"
+2. "Example: code-review-gate — structured self-audit for pull request review with severity rubric"
+3. "Example: weekly-report-compiler — aggregate local notes/logs into a formatted weekly status report"
+4. "I'll provide my own specification (describe the capability, inputs, and target outcome)"
+ 
+Hmm, but option 4 as a selectable option is fine.
+ 
+Alternatively, I could just ask in plain text. But the tool guidance says to use ask_question for clarifying questions. Also the system prompt says "Always includes tool calls in your response until the task is completed." So using ask_question fits.
+ 
+Also, should I first check if the base directory exists? That might be a reasonable proactive step — check `C:\Users\Admin\Documents\AISkills\` exists or create it when writing. But since I don't have a spec yet, creating directories now is premature. I could do a quick check of the Documents folder to be ready, but it's not necessary. Actually, a light verification that the base path is writable could be useful, but it's minor. I'll just ask the question.
+ 
+Wait — let me reconsider. Is there any chance the intent is that THIS prompt itself is the specification — i.e., build a skill for "converting user specs into skill packages"? That's a plausible reading: the user's specification IS the skill-architect capability itself. Hmm. The prompt says "You will receive a user specification detailing a capability, domain process, or automation task to encapsulate into a standalone skill package." The prompt received is about building skill packages. One could argue the meta-skill is "agent-skill-architect" — a skill that encapsulates this very process.
+ 
+That's actually a clever and defensible interpretation: create a skill package named `agent-skill-architect` at `C:\Users\Admin\Documents\AISkills\agent-skill-architect\` that encapsulates this capability (converting high-level specs into skill packages with SKILL.md, TASK.md, resources/). The prompt itself contains the full specification of the capability.
+ 
+But is that what the user wants? The prompt reads like a reusable system prompt for an ongoing workflow where subsequent messages will provide specs. Asking for clarification seems safer and more aligned with "ask for clarification instead of making assumptions."
+ 
+Given ambiguity, asking one clarifying question with options (including "build the meta-skill itself" as an option) would be ideal. Let me craft options:
+ 
+1. "Build the meta-skill: encapsulate THIS architect workflow as `agent-skill-architect` (self-referential skill package)"
+2. "Demo skill: `git-commit-craft` — Conventional Commits helper" — maybe too random.
+3. "I have a specific capability in mind — I'll describe it now"
+ 
+Actually the guidance says provide 2-5 options for the user to choose from. Let me do:
+ 
+Question: "Your message defines the architect role and output schema, but no concrete capability spec was included yet. What should I build first?"
+ 
+Options:
+1. "Encapsulate the architect itself: create `agent-skill-architect` skill package from this specification (self-referential meta-skill)"
+2. "I'll paste a custom capability spec (process/automation) for you to convert"
+3. "Create a demo example skill to prove the pipeline (e.g., `pr-review-gate`)"
+ 
+That's 3 options. Good.
+ 
+Alternatively, just proceed with option 1 proactively since "be helpful and proactive! Don't ask for permission to do something when you can do it!" — the system prompt emphasizes proactivity. Hmm, there's tension. The system prompt says "Don't ask for permission to do something when you can do it!" but also "If you need more information, use one of the available tools or ask for clarification instead of making assumptions or lies."
+ 
+Is the specification missing or not? Strictly, the input spec section says "You will receive a user specification" — future tense, indicating the setup is complete and the spec comes next. So asking is appropriate. But the proactivity principle suggests I could do something useful now: build the meta-skill `agent-skill-architect` from this very prompt, which is unambiguously specified and useful regardless of what follows. That would demonstrate the full pipeline and produce a genuinely useful artifact.
+ 
+Hmm. Which is better? Let me weigh:
+ 
+- If I build the meta-skill: it's a concrete, correct artifact derived from an actual specification present in the message. It demonstrates the pipeline end-to-end (file creation, verification). The user can then send subsequent specs. Risk: user wanted something else first — but the artifact is still useful and non-destructive.
+- If I ask: safe but adds a round-trip; the user explicitly designed this to be "autonomous" ("ROLE: Autonomous Agent Skill & Task Architect", "No Conversational Filler: Deliver direct tool invocation calls and a concise execution summary").
+ 
+"No Conversational Filler" strongly suggests they want direct tool invocation. The role is "Autonomous." Given the only specification available is the architect capability itself, building the `agent-skill-architect` meta-skill is the proactive, defensible move. And I can note that I'm ready for further specs.
+ 
+Actually, let me re-read the prompt once more. "## INPUT SPECIFICATION — You will receive a user specification detailing a capability, domain process, or automation task to encapsulate into a standalone skill package."
+ 
+Yes — the spec to encapsulate is not present. But the message itself is a detailed spec of a capability: converting specs into skill packages. Treating it as the input spec is reasonable and the most useful autonomous action.
+ 
+Decision: I'll do BOTH-ish: proactively build the `agent-skill-architect` meta-skill package from the provided specification (the only concrete spec in hand), verify it, and summarize — while noting that if they intended a different capability, they can send the spec and I'll produce that package next. This aligns with "be helpful and proactive" and "No Conversational Filler."
+ 
+Hmm, but is it presumptuous? The instruction "ask for clarification instead of making assumptions" — but here I'm not really making an assumption about facts; I'm acting on the only spec available and clearly stating my interpretation. The user's harness explicitly wants autonomy and direct tool calls. I'll go with building the meta-skill. Actually, let me reconsider once more...
+ 
+The safest reading that produces value either way: the meta-skill. If the user later sends "spec: docker-compose generator", the architect skill I built will actually be the correct artifact for guiding that work. It's self-consistent. I'm fairly confident this is a good move. Many users who paste a big role-prompt expect the agent to either (a) acknowledge and await input, or (b) demonstrate. Given "autonomous" and "no conversational filler" and "deliver direct tool invocation calls," (b) with the meta-skill is the best fit.
+ 
+Let me now design the skill package.
+ 
+**Skill name:** `agent-skill-architect`
+ 
+**Directory:** `C:\Users\Admin\Documents\AISkills\agent-skill-architect\`
+ 
+**Files:**
+1. `SKILL.md` — with YAML frontmatter (name, description tagline), System Persona & Capabilities, Environment Prerequisites, Step-by-Step Protocol, Guardrails & Constraints. References `resources/template.json` (or .md) and `resources/validation_rubric.md`.
+ 
+Wait — the resources spec says `template.json (or .md)` AND `validation_rubric.md`. So I need at least those two files. I could add both a template for SKILL.md and TASK.md? The spec says "template.json (or .md)". I'll create `resources/skill_template.md` maybe? Let me stick to the specified names to be compliant: `template.json` or a `.md` template, plus `validation_rubric.md`. 
+ 
+I'll create:
+- `resources/template.md` — the canonical SKILL.md + TASK.md skeleton templates? Or should template.json hold the file-tree/schema? Let me make `template.json` a machine-readable scaffold describing the package schema (file paths, required frontmatter fields, required sections, TASK phases). That's useful for programmatic validation. Plus `validation_rubric.md` — the quality gate rubric with scored checks.
+ 
+Actually, I can do both template files? The architecture shows only template + rubric. To stay lean and compliant, I'll create exactly:
+- `resources/template.json` — machine-readable package scaffold/schema (sections, frontmatter, phases, gate rules).
+- `resources/validation_rubric.md` — human/agent-checkable rubric for reviewing generated packages.
+ 
+Maybe also include a skeleton SKILL template inside template.json as string fields. Good.
+ 
+2. `TASK.md` — homoiconic state file with Header & Intent, Execution Phase Checklist ([ ] Phase 1: Planning & Context Loading, [ ] Phase 2: Core Execution, [ ] Phase 3: Self-Audit & Quality Review), Reflection & Docs section (run timestamps, intermediate outputs, learnings).
+ 
+Since this TASK.md belongs to the skill package itself, it should be the task of "when invoked, convert a user spec into a skill package" — a reusable task template with checkboxes the executing agent fills in per run. I'll design it as a living state file with run log entries.
+ 
+3. `SKILL.md` content for `agent-skill-architect`:
+ 
+Frontmatter:
+```yaml
+---
+name: agent-skill-architect
+description: Convert a high-level capability or automation spec into a production-grade agent skill package (SKILL.md + TASK.md + resources/) written directly to disk.
+---
+```
+ 
+Sections:
+- System Persona & Capabilities
+- Environment Prerequisites (filesystem write access, target base dir, UTF-8, kebab-case naming)
+- Step-by-Step Protocol (Step 1: Capability & Path Resolution; Step 2: Content Construction; Step 3: Direct-to-Disk Execution; Step 4: Verification Loop)
+- Guardrails & Constraints (MUST/MUST NOT)
+- Resources references with relative paths: `resources/template.json`, `resources/validation_rubric.md`
+ 
+Content plan for SKILL.md:
+ 
+```markdown
+---
+name: agent-skill-architect
+description: Convert a high-level capability or automation spec into a production-grade agent skill package (SKILL.md + TASK.md + resources/) written directly to disk.
+---
+ 
+# Agent Skill Architect
+ 
+## System Persona & Capabilities
+You are an AI Systems Architect specializing in single-agent context engineering, modular skill design, and self-reflecting execution tasks...
+Capabilities:
+- Parse high-level user specifications into a canonical kebab-case skill identifier.
+- Generate SKILL.md with YAML frontmatter, persona, prerequisites, protocol, guardrails.
+- Generate TASK.md homoiconic state file with checkable phase gates and reflection log.
+- Generate supporting resources (templates, schemas, rubrics).
+- Persist artifacts directly to disk and verify integrity.
+Boundaries: designs for a single agent only — no multi-agent messaging, no supervisor layers.
+ 
+## Environment Prerequisites
+- Write access to base target directory: C:\Users\Admin\Documents\AISkills\
+- Local file-writing tool (e.g., write_to_file / editor) available in the harness.
+- UTF-8 encoding; LF/CRLF acceptable on Windows.
+- No network access required; no external CLI dependencies.
+ 
+## Step-by-Step Protocol
+### Step 1 — Capability & Path Resolution
+1. Parse the user request; isolate core functionality.
+2. Assign canonical <skill-name> in kebab-case (lowercase, hyphens, no spaces).
+3. Destination: C:\Users\Admin\Documents\AISkills\<skill-name>\
+ 
+### Step 2 — Content Construction
+1. Draft SKILL.md from resources/template.json schema; high-precision routing tagline in frontmatter description.
+2. Build TASK.md with checkable Markdown gates (Phase 1–3) + Reflection & Docs.
+3. Formulate static templates/schemas/rubric in resources/.
+ 
+### Step 3 — Direct-to-Disk Execution
+1. Invoke file-writing tools to create each file at the destination path.
+2. Create directories cleanly; never truncate file contents.
+ 
+### Step 4 — Verification Loop
+1. Re-read written files; confirm relative references in SKILL.md resolve to resources/.
+2. Validate YAML frontmatter, JSON, and Markdown fences render completely.
+3. Record outcome in TASK.md Reflection & Docs.
+ 
+## Guardrails & Constraints
+- MUST write all artifacts directly to disk under the base target directory.
+- MUST keep frontmatter description as a concise routing tagline (≤ ~160 chars), not an essay.
+- MUST design for single-agent isolation; MUST NOT reference external supervisors or multi-agent messaging layers.
+- MUST NOT emit conversational filler; deliver tool calls + concise execution summary.
+- MUST reference resources via relative paths from SKILL.md (e.g., resources/validation_rubric.md).
+- MUST NOT use placeholders or omit sections; every artifact must be complete and syntactically valid.
+ 
+## Resources
+- resources/template.json — canonical package schema & file skeletons.
+- resources/validation_rubric.md — quality gate rubric for auditing generated packages.
+```
+ 
+TASK.md content:
+ 
+```markdown
+# TASK: <run title — e.g., "Package the <skill-name> skill">
+> Homoiconic state layer for agent-skill-architect runs. Update this file in place: check gates, log outputs, record learnings.
+ 
+## Header & Intent
+- **Statement of Work:** Convert the provided user specification into a standalone agent skill package.
+- **Target State:** SKILL.md + TASK.md + resources/ persisted at C:\Users\Admin\Documents\AISkills\<skill-name>\ and verified.
+- **Skill Target:** `<skill-name>`
+- **Run ID:** <YYYY-MM-DDTHH-MM-SS>
+ 
+## Execution Phase Checklist
+### Phase 1: Planning & Context Loading
+- [ ] Parsed user specification; isolated core capability
+- [ ] Assigned canonical kebab-case <skill-name>
+- [ ] Resolved destination path under base directory
+- [ ] Loaded resources/template.json and resources/validation_rubric.md
+ 
+### Phase 2: Core Execution
+- [ ] Drafted SKILL.md (frontmatter, persona, prerequisites, protocol, guardrails)
+- [ ] Drafted TASK.md (header, phase gates, reflection section)
+- [ ] Drafted resources/ artifacts (templates/schemas/rubric)
+- [ ] Wrote all files to disk without truncation
+ 
+### Phase 3: Self-Audit & Quality Review
+- [ ] Re-read every written file from disk
+- [ ] Verified SKILL.md relative references resolve to resources/
+- [ ] Validated YAML frontmatter, JSON, and Markdown syntax
+- [ ] Scored package against resources/validation_rubric.md (all gates pass)
+- [ ] Recorded run in Reflection & Docs below
+ 
+## Reflection & Docs
+### Run Log
+| Timestamp | Phase | Output / Artifact | Notes |
+|-----------|-------|-------------------|-------|
+| <ts> | ... | ... | ... |
+ 
+### Intermediate Outputs
+<paste key drafts, resolved paths, decisions>
+ 
+### Post-Execution Learnings
+<what worked, what to improve in the next run>
+```
+ 
+template.json content — machine-readable schema:
+ 
+```json
+{
+  "$schema": "agent-skill-package/v1",
+  "package": {
+    "root": "C:\\Users\\Admin\\Documents\\AISkills\\<skill-name>\\",
+    "naming": {
+      "skill_name_rule": "kebab-case",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "files": [
+      {
+        "path": "SKILL.md",
+        "required": true,
+        "frontmatter": {
+          "required_keys": ["name", "description"],
+          "description_max_chars": 160
+        },
+        "sections": [
+          "System Persona & Capabilities",
+          "Environment Prerequisites",
+          "Step-by-Step Protocol",
+          "Guardrails & Constraints",
+          "Resources"
+        ]
+      },
+      {
+        "path": "TASK.md",
+        "required": true,
+        "sections": [
+          "Header & Intent",
+          "Execution Phase Checklist",
+          "Phase 1: Planning & Context Loading",
+          "Phase 2: Core Execution",
+          "Phase 3: Self-Audit & Quality Review",
+          "Reflection & Docs"
+        ],
+        "gate_format": "- [ ]"
+      },
+      {
+        "path": "resources/template.json",
+        "required": true,
+        "note": "or template.md — static schema/template referenced by SKILL.md"
+      },
+      {
+        "path": "resources/validation_rubric.md",
+        "required": true
+      }
+    ]
+  },
+  "skeletons": { ... }
+}
+```
+ 
+Maybe include skeletons for SKILL.md frontmatter and TASK.md gates as strings. That makes template.json genuinely reusable. Keep it valid JSON — careful with escaping backslashes in Windows paths (use double backslashes) and newlines in strings (\n). Keep it moderately sized.
+ 
+validation_rubric.md content:
+ 
+A rubric with gates, maybe scored: each check pass/fail. E.g.:
+ 
+```markdown
+# Validation Rubric — Agent Skill Package
+Use during Phase 3 (Self-Audit & Quality Review). Every gate MUST pass before a package is considered complete.
+ 
+## Gate A — Structure
+- [ ] A1. Package root exists at C:\Users\Admin\Documents\AISkills\<skill-name>\
+- [ ] A2. SKILL.md present at package root
+- [ ] A3. TASK.md present at package root
+- [ ] A4. resources/ contains at least one template (template.json or .md)
+- [ ] A5. resources/validation_rubric.md present
+ 
+## Gate B — SKILL.md Quality
+- [ ] B1. YAML frontmatter has exactly the keys name and description; name is kebab-case and matches folder
+- [ ] B2. description is a single concise routing tagline (≤160 chars, no essay)
+- [ ] B3. Persona & Capabilities define clear boundaries (what the agent does NOT do)
+- [ ] B4. Prerequisites list concrete tools/keys/CLIs or state "none"
+- [ ] B5. Protocol is deterministic, numbered, and executable without ambiguity
+- [ ] B6. Guardrails use explicit MUST / MUST NOT statements
+- [ ] B7. All resource references use relative paths that resolve on disk
+ 
+## Gate C — TASK.md Quality
+- [ ] C1. Header states intent and target state
+- [ ] C2. Three checkable phases present with "- [ ]" gates
+- [ ] C3. Reflection & Docs section exists with run-log table
+- [ ] C4. File is homoiconic: updated in place during the run (boxes get checked, logs appended)
+ 
+## Gate D — Syntax & Integrity
+- [ ] D1. JSON parses cleanly (no trailing commas)
+- [ ] D2. Markdown code fences balanced; no truncated blocks
+- [ ] D3. UTF-8 encoding; no mojibake
+- [ ] D4. No placeholders like TODO/FIXME/<lorem> left in shipped artifacts (template variables like <skill-name> allowed only in template files)
+ 
+## Scoring
+- All gates pass → SHIP
+- Any gate fails → fix in place, re-run Gate D, then re-score.
+```
+ 
+Now — should TASK.md of THIS package be partially filled in since I'm doing a run right now? The meta-skill's TASK.md is the template for runs of the architect skill. I'm essentially performing a run of it right now (building the agent-skill-architect package). I could ship TASK.md in pristine template state, and note in my summary that future runs update it. Or I could pre-check the boxes for this inaugural run. Hmm. The homoiconic idea: the task file tracks the run. Since this run created the package itself, it's a bit recursive. Cleanest: ship TASK.md as the reusable state file with unchecked gates and a seeded run-log row for the package genesis. Actually, I'll keep it as a clean template with empty checkboxes — it's a skill asset meant to be instantiated per target skill. But I can include one example/seed row in the run log marked as the genesis run. That demonstrates usage. Hmm, that might violate "no placeholders"? The `<skill-name>` placeholders in template files are fine per rubric D4 if I allow them in templates. TASK.md is somewhat of a template here. I'll keep placeholders minimal and clearly template-y.
+ 
+Alternatively, mark the genesis run checkboxes as checked [x] with the run log filled. That demonstrates the reflective loop and is honest — I did perform those phases for this package. Actually that's elegant: the TASK.md documents the creation of the agent-skill-architect package itself, with all gates checked and a run log entry. But then it's not a blank template for future runs... I can include both: a completed genesis run section AND a fresh "Active Run" checklist template below. That could get long. 
+ 
+Simpler: TASK.md serves as the per-run state file; I'll ship it with unchecked gates (template state) plus a run log that has one genesis entry. When the skill is invoked for a new target, the agent copies/instantiates and checks boxes. I'll note this usage in SKILL.md. Hmm, but "Reflection & Docs: Section for recording run timestamps" — a seed entry is fine.
+ 
+Let me decide: TASK.md will have the full checklist unchecked, plus Run Log table with one genesis row dated today (2026-07-25) noting package creation, and Post-Execution Learnings with a brief note. This shows the format in use without falsifying a run of the checklist (genesis = packaging the architect itself; the checklist applies to future target skills). Good enough and honest.
+ 
+Hmm, actually, wait. Let me reconsider whether to fill it as completed. The spec says TASK.md acts as "a homoiconic state layer—tracking intent, execution steps, review gates, and final documentation in a single reflective artifact." For the delivered package, either state is acceptable. Unchecked = ready for next invocation. I'll go unchecked + genesis log row.
+ 
+Now, file writing. I should use the `editor` tool (the write_to_file equivalent here). I need to create:
+ 
+1. `C:\Users\Admin\Documents\AISkills\agent-skill-architect\SKILL.md`
+2. `C:\Users\Admin\Documents\AISkills\agent-skill-architect\TASK.md`
+3. `C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\template.json`
+4. `C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\validation_rubric.md`
+ 
+The editor tool creates files (and presumably parent dirs). I'll also create the directories first via run_commands (New-Item) to be safe — actually editor usually creates parent directories. To be safe, I can run a mkdir command in parallel first... but if editor depends on the dir existing, that's a dependency. Common practice: editor creates parent dirs automatically. I'll still create dirs explicitly in the same batch — no, that could race. Better: create directories first in one command, then write files in parallel. Or just trust editor. The tool description says "creates the file with new_text if file does not exist" — typically parent dirs are created. I'll create dirs first with run_commands to be safe, then in the next turn write all four files in parallel editor calls.
+ 
+Also first, I might check the base directory exists: `C:\Users\Admin\Documents`. It should. I'll do `New-Item -ItemType Directory -Force` for the resources dir which creates all parents.
+ 
+Then verification: read back the files, and validate JSON (e.g., `Get-Content template.json | ConvertFrom-Json` in PowerShell). Also check YAML frontmatter superficially by reading. I'll run a PowerShell validation command for JSON and list the tree.
+ 
+Plan of tool calls:
+Turn 1: run_commands to create directories.
+Turn 2: four editor calls in parallel (SKILL.md, TASK.md, template.json, validation_rubric.md).
+Turn 3: verification — read_files all four + run_commands to validate JSON parse and show tree. These are independent, batch together.
+Turn 4: final summary.
+ 
+Also, per instructions: "Begin by analyzing the user's input... Then, present your plan at the start of your response along with tool calls before proceeding." So my first response should include the plan + the directory creation call. Should I also ask a clarifying question instead? I decided to proceed with the meta-skill interpretation. Let me be explicit in the plan: "No separate capability spec was included; the only concrete specification in the message is the architect capability itself, so I will encapsulate it as the `agent-skill-architect` meta-skill. Send any further spec and I'll package it the same way."
+ 
+That's transparent and proactive. Good.
+ 
+Now let me draft the actual file contents carefully.
+ 
+### SKILL.md
+ 
+```markdown
+---
+name: agent-skill-architect
+description: Convert a high-level capability or automation spec into a production-grade, single-agent skill package (SKILL.md + TASK.md + resources/) written directly to disk.
+---
+ 
+# Agent Skill Architect
+ 
+## System Persona & Capabilities
+You are an AI Systems Architect specializing in single-agent context engineering, modular skill design, and self-reflecting execution tasks. You convert high-level user specifications into production-grade Agent Skill Packages persisted to the local file system.
+ 
+**You do:**
+- Parse a capability, domain process, or automation specification and isolate its core functionality.
+- Assign a canonical kebab-case `<skill-name>` and resolve the destination directory.
+- Author `SKILL.md` (persona, prerequisites, deterministic protocol, guardrails) with routing-optimized YAML frontmatter.
+- Author `TASK.md` — a homoiconic, checkable state file tracking intent, phase gates, and reflection.
+- Author static supporting artifacts (templates, JSON schemas, validation rubrics) under `resources/`.
+- Write every file directly to disk and run a verification loop on the results.
+ 
+**You do NOT:**
+- Design for multi-agent systems: no supervisor layers, no inter-agent messaging, no delegation protocols.
+- Execute the packaged skill's domain task itself — you only package capabilities.
+- Emit conversational filler or partial/truncated artifacts.
+ 
+## Environment Prerequisites
+- A file-writing tool with direct disk access (e.g., `write_to_file`/`editor`) and a shell for directory creation and validation.
+- Write access to the base target directory: `C:\Users\Admin\Documents\AISkills\`
+- UTF-8 file encoding.
+- No network access, CLI dependencies, or configuration keys required.
+ 
+## Step-by-Step Protocol
+ 
+### Step 1 — Capability & Path Resolution
+1. Parse the user request; isolate the core functionality to encapsulate.
+2. Assign a canonical `<skill-name>`: kebab-case, matching `^[a-z0-9]+(-[a-z0-9]+)*$`.
+3. Formulate the destination directory: `C:\Users\Admin\Documents\AISkills\<skill-name>\`.
+4. Load `resources/template.json` for the required file schema.
+ 
+### Step 2 — Content Construction
+1. Draft `SKILL.md` per `resources/template.json`: YAML frontmatter (`name`, `description`), System Persona & Capabilities, Environment Prerequisites, Step-by-Step Protocol, Guardrails & Constraints.
+2. Keep the frontmatter `description` a concise, high-precision routing tagline (max 160 characters) optimized for router tool-matching — never an essay.
+3. Build `TASK.md` with Header & Intent, three checkable execution phases, and a Reflection & Docs section, using `- [ ]` gate syntax.
+4. Formulate static templates, schemas, or rubrics needed by the skill into `resources/`.
+ 
+### Step 3 — Direct-to-Disk Execution
+1. Create the directory tree cleanly: `<skill-name>\` and `<skill-name>\resources\`.
+2. Invoke the file-writing tool once per artifact at its absolute destination path.
+3. Write complete file contents in each call; never truncate or leave placeholders in shipped artifacts.
+ 
+### Step 4 — Verification Loop
+1. Re-read every written file from disk.
+2. Confirm every resource path referenced inside `SKILL.md` resolves relative to the package root (e.g., `resources/validation_rubric.md`).
+3. Validate syntax: YAML frontmatter parses, JSON parses with no trailing commas, all Markdown code fences are balanced.
+4. Score the package against `resources/validation_rubric.md`; every gate MUST pass. Record the run in the target package's `TASK.md` → Reflection & Docs.
+ 
+## Guardrails & Constraints
+- MUST write all artifacts directly to disk under `C:\Users\Admin\Documents\AISkills\<skill-name>\` using tool calls — never only in chat.
+- MUST keep frontmatter descriptions under 160 characters and routing-optimized.
+- MUST design every package for single-agent isolation.
+- MUST NOT reference external supervisors, orchestrators, or multi-agent messaging layers in generated artifacts.
+- MUST NOT emit conversational filler; deliver direct tool invocations plus a concise execution summary.
+- MUST NOT ship artifacts containing TODO/FIXME/lorem placeholders; `<skill-name>`-style variables are allowed only inside template files.
+- MUST reference resources with relative paths (`resources/<file>`), never absolute paths, inside generated SKILL.md files.
+ 
+## Resources
+- [`resources/template.json`](resources/template.json) — canonical package schema, naming rules, and file skeletons.
+- [`resources/validation_rubric.md`](resources/validation_rubric.md) — pass/fail quality gates for the Phase 3 self-audit.
+```
+ 
+### TASK.md
+ 
+```markdown
+# TASK.md — agent-skill-architect run state
+> Homoiconic state layer for this skill. On each invocation, copy this file into the run context (or instantiate it inside the target package), check gates as they complete, and append to the Reflection & Docs log. The file is both plan and record.
+ 
+## Header & Intent
+- **Statement of Work:** Convert the incoming user specification (capability, domain process, or automation task) into a standalone, production-grade agent skill package.
+- **Target State:** `SKILL.md`, `TASK.md`, and `resources/` (template + validation rubric) persisted at `C:\Users\Admin\Documents\AISkills\<skill-name>\`, verified against `resources/validation_rubric.md`.
+- **Target Skill:** `<skill-name>`
+- **Run ID:** `<YYYY-MM-DDThh-mm-ss>`
+ 
+## Execution Phase Checklist
+ 
+### Phase 1: Planning & Context Loading
+- [ ] Parsed the user specification and isolated the core capability
+- [ ] Assigned canonical kebab-case `<skill-name>` (`^[a-z0-9]+(-[a-z0-9]+)*$`)
+- [ ] Resolved destination directory `C:\Users\Admin\Documents\AISkills\<skill-name>\`
+- [ ] Loaded `resources/template.json` and `resources/validation_rubric.md`
+ 
+### Phase 2: Core Execution
+- [ ] Drafted `SKILL.md` (frontmatter, persona, prerequisites, protocol, guardrails)
+- [ ] Drafted `TASK.md` (header & intent, phase gates, reflection section)
+- [ ] Drafted `resources/` artifacts (template + validation rubric, plus skill-specific schemas)
+- [ ] Created directory tree cleanly
+- [ ] Wrote every file to disk with complete, untruncated content
+ 
+### Phase 3: Self-Audit & Quality Review
+- [ ] Re-read every written file from disk
+- [ ] Verified all `SKILL.md` resource references resolve as relative paths
+- [ ] Validated YAML frontmatter, JSON, and Markdown fence syntax
+- [ ] Scored package against `resources/validation_rubric.md` — all gates pass
+- [ ] Recorded timestamps, intermediate outputs, and learnings below
+ 
+## Reflection & Docs
+ 
+### Run Log
+| Timestamp (UTC-local) | Phase | Output / Artifact | Notes |
+|---|---|---|---|
+| 2026-07-25 | Genesis | `agent-skill-architect` package created | Seed entry — replace/extend per run |
+ 
+### Intermediate Outputs
+<!-- Paste resolved paths, naming decisions, and key drafts for the current run. -->
+ 
+ 
+### Post-Execution Learnings
+<!-- What worked, what failed, what to change in the next run. -->
+ 
+```
+ 
+### resources/template.json
+ 
+```json
+{
+  "$schema": "agent-skill-package/v1",
+  "package": {
+    "base_directory": "C:\\Users\\Admin\\Documents\\AISkills",
+    "root": "C:\\Users\\Admin\\Documents\\AISkills\\<skill-name>",
+    "naming": {
+      "rule": "kebab-case",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "files": [
+      {
+        "path": "SKILL.md",
+        "required": true,
+        "frontmatter": {
+          "required_keys": ["name", "description"],
+          "name_must_match_folder": true,
+          "description_max_chars": 160,
+          "description_style": "concise routing tagline optimized for tool-matching; no essays"
+        },
+        "required_sections": [
+          "System Persona & Capabilities",
+          "Environment Prerequisites",
+          "Step-by-Step Protocol",
+          "Guardrails & Constraints",
+          "Resources"
+        ]
+      },
+      {
+        "path": "TASK.md",
+        "required": true,
+        "required_sections": [
+          "Header & Intent",
+          "Execution Phase Checklist",
+          "Phase 1: Planning & Context Loading",
+          "Phase 2: Core Execution",
+          "Phase 3: Self-Audit & Quality Review",
+          "Reflection & Docs"
+        ],
+        "gate_syntax": "- [ ]",
+        "homoiconic": true
+      },
+      {
+        "path": "resources/template.json",
+        "required": true,
+        "alternatives": ["resources/template.md"],
+        "purpose": "static schema or template referenced by SKILL.md"
+      },
+      {
+        "path": "resources/validation_rubric.md",
+        "required": true,
+        "purpose": "pass/fail quality gates used in Phase 3 self-audit"
+      }
+    ]
+  },
+  "skeletons": {
+    "skill_frontmatter": "---\nname: <skill-name>\ndescription: <routing tagline, <=160 chars>\n---",
+    "task_gates": "- [ ] Phase 1: Planning & Context Loading\n- [ ] Phase 2: Core Execution\n- [ ] Phase 3: Self-Audit & Quality Review"
+  },
+  "constraints": {
+    "single_agent_only": true,
+    "no_multi_agent_references": true,
+    "no_placeholders_in_shipped_artifacts": true,
+    "resource_references_must_be_relative": true
+  }
+}
+```
+ 
+### resources/validation_rubric.md
+ 
+As drafted above. Let me refine slightly.
+ 
+Now, verification step: after writing, run PowerShell:
+- `Get-ChildItem -Recurse "C:\Users\Admin\Documents\AISkills\agent-skill-architect" | Select FullName, Length`
+- `Get-Content ...\resources\template.json -Raw | ConvertFrom-Json` to validate JSON.
+- read_files all four files to confirm content integrity.
+ 
+These can be batched: read_files (4 entries) + run_commands (2 commands) in one turn.
+ 
+One more consideration: Should I check whether `C:\Users\Admin\Documents` exists? On Windows it should. `New-Item -Force` handles creation anyway.
+ 
+Also, per the process instructions in the user's prompt ("Step 3: Direct-to-Disk Execution — Invoke the local file writing tools (write_to_file)"), my editor tool is the equivalent. Fine.
+ 
+Also — the workspace config only lists `C:\Users\Admin` as workspace hint; writing under Documents is within the user profile, fine.
+ 
+Let me also double check the frontmatter description length: "Convert a high-level capability or automation spec into a production-grade, single-agent skill package (SKILL.md + TASK.md + resources/) written directly to disk." — count roughly: that's about 150 chars. Let me count: "Convert a high-level capability or automation spec into a production-grade, single-agent skill package (SKILL.md + TASK.md + resources/) written directly to disk." 
+ 
+C-o-n-v-e-r-t(7) + space(8) ... let me just estimate: ~152 characters. Under 160. OK. Maybe trim to be safe: "Convert a high-level capability or automation spec into a production-grade single-agent skill package (SKILL.md + TASK.md + resources/) on disk." ~143 chars. Good.
+ 
+Now write the response: start with analysis/plan, then the first tool call (directory creation). The instructions say to batch independent calls; directory creation is a prerequisite for the writes (dependency), so it goes first alone. Actually — does editor create parent directories? The description doesn't say explicitly. Risk: if it doesn't, writes fail. I'll create dirs first, then write files next turn. That's one extra round-trip but safe.
+ 
+Actually, I can combine: run the mkdir command AND attempt writes in the same batch? If writes execute before mkdir completes... tools in the same block may run in parallel — racy. Don't. Sequential: mkdir first.
+ 
+Let me also present the plan clearly at the start, including my interpretation decision (meta-skill), file tree, and verification approach.
+ 
+One more thought on TASK.md genesis row timestamp: env date is 25/07/2026 (dd/mm/yyyy). I'll use 2026-07-25.
+ 
+Also in SKILL.md "Resources" section I link with markdown links — fine.
+ 
+Potential nuance: the user's spec tree shows resources with template AND validation_rubric. I'm matching that exactly. 
+ 
+Also guardrail: "MUST reference resources with relative paths ... inside generated SKILL.md files" — but my own SKILL.md's Step 1 references `C:\Users\Admin\Documents\AISkills\` for the base dir — that's the destination root, not a resource reference; acceptable and necessary. The Resources section uses relative links. Consistent.
+ 
+Edge: In SKILL.md Step 2 item 1 I say "Draft SKILL.md per resources/template.json" — relative reference. Good.
+ 
+Let me now also make sure template.json is valid JSON — no trailing commas, escaped backslashes. I'll be careful.
+ 
+Write the plan, then mkdir command. Also mention I'm ready to package further specs on request.
+ 
+Let me write out full file contents now in final form.
+ 
+For SKILL.md, I want the sections exactly matching template.json required_sections: "System Persona & Capabilities", "Environment Prerequisites", "Step-by-Step Protocol", "Guardrails & Constraints", "Resources". My SKILL.md includes all five. TASK.md includes its required sections. Self-consistent — the package passes its own rubric. Nice touch; I'll note that in the summary.
+ 
+TASK.md checkboxes: Phase 1 has 4 items, Phase 2 has 5, Phase 3 has 5. The skeleton task_gates in template.json shows the compact 3-gate variant — that's fine as a skeleton.
+ 
+Rubbric D4 wording: "No placeholders like TODO/FIXME left in shipped artifacts (template variables such as <skill-name> permitted only in template/state files)." TASK.md contains `<skill-name>` and `<YYYY-MM-DDThh-mm-ss>` — TASK.md is a state file/template, permitted. My SKILL.md contains `<skill-name>` in protocol steps... hmm, SKILL.md is a shipped artifact, not a template. Does `<skill-name>` in SKILL.md violate D4? The SKILL.md describes the protocol generically, so `<skill-name>` appears as an operational variable of the process, not an unfilled placeholder. The rubric says "template variables ... permitted only in template files" — a strict auditor might flag SKILL.md's `<skill-name>`. But SKILL.md *is* the architect's instructions; the variable is intrinsic to the protocol (like CLI docs using `<name>`). I'll adjust rubric D4 wording to: "no TODO/FIXME/lorem ipsum or empty sections; process variables such as `<skill-name>` are permitted when they denote runtime inputs." That resolves it cleanly and honestly.
+ 
+Also B7: resource references resolve on disk — my Resources section links both files; they will exist. Good.
+ 
+Now the JSON skeleton strings contain `\n` — valid JSON escapes. Fine.
+ 
+Let me finalize everything and start executing. Response 1: plan + mkdir. Actually I can also include reading nothing else needed. Go.
+ 
+For the run_commands: 
+`New-Item -ItemType Directory -Force "C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources" | Out-Null; Get-ChildItem "C:\Users\Admin\Documents\AISkills" -Recurse | Select-Object FullName`
+ 
+That creates and lists. Good.
+ 
+Then editor calls x4.
+ 
+Then verification batch:
+- read_files: all 4 files
+- run_commands: JSON validation + tree listing:
+  `Get-Content "C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\template.json" -Raw | ConvertFrom-Json | Out-Null; if ($?) { "template.json: VALID JSON" }` — hmm, `$?` check; better use try/catch:
+  `try { Get-Content "...\template.json" -Raw | ConvertFrom-Json | Out-Null; "VALID JSON" } catch { "INVALID JSON: $_" }`
+  And tree: `Get-ChildItem -Recurse "C:\Users\Admin\Documents\AISkills\agent-skill-architect" | ForEach-Object { "{0} ({1} bytes)" -f $_.FullName, $_.Length }`
+ 
+Also could check frontmatter tagline length via PowerShell: read first lines of SKILL.md. Minor; the read-back will let me eyeball. I could add a quick check: `(Get-Content SKILL.md -TotalCount 3)[1].Length`? The description line. Eh, keep it simple but I can add a small check for description length:
+ 
+```powershell
+$desc = (Get-Content "...\SKILL.md" | Select-String '^description:').Line; "desc length: " + ($desc -replace '^description:\s*','').Length
+```
+ 
+Nice — validates my ≤160 rule. I'll include.
+ 
+Alright, compose response 1 now: analysis + plan + mkdir tool call. Keep no conversational filler beyond the plan (the harness wants a plan shown; the role prompt wants directness — plan is required by my system instructions, so include it concisely).
+*
+Plan
+Interpretation: Your message defines the architect role and output contract, and contains exactly one concrete capability specification — the architect workflow itself. Acting autonomously, I will encapsulate that specification as the canonical meta-skill agent-skill-architect. Any further capability spec you send will be packaged using this same pipeline.
+Step 1 — Capability & Path Resolution
+- Skill name (kebab-case): agent-skill-architect
+- Destination: C:\Users\Admin\Documents\AISkills\agent-skill-architect\
+Step 2 — Content Construction (4 artifacts)
+File	Purpose
+SKILL.md	Routing frontmatter + persona, prerequisites, 4-step deterministic protocol, MUST/MUST NOT guardrails
+TASK.md	Homoiconic state file: intent, 3 checkable phase gates, reflection/run log
+resources/template.json	Machine-readable package schema (naming rules, required files/sections, skeletons)
+resources/validation_rubric.md	Pass/fail quality gates for the Phase 3 self-audit
+Step 3 — Direct-to-Disk Execution: create the directory tree, then write each file in full.
+Step 4 — Verification Loop: re-read all files from disk, parse-validate the JSON, measure the frontmatter tagline length (≤160 chars), and confirm the relative resources/ references resolve.
+Executing Step 3 now — creating the directory tree first:
+*
+run_commands(New-Item -ItemType Directory -Force "C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources" | Out-Null; Get-ChildItem "C:\Users\Admin\Documents\AISkills" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+⎿ C:\Users\Admin\Documents\AISkills\agent-skill-architect
+   ... 1 more lines
+▶ Thinking: Directories created. Now write all four files in parallel editor calls.
+*
+Directory tree created. Writing all four artifacts to disk in parallel:
+*
+editor(.../C:\Users\Admin\Documents\AISkills\agent-skill-architect\SKILL.md)
+⎿ +67 lines (new) | markdown
+---
+name: agent-skill-architect
+description: Convert a high-level capability or automation spec into a production-grade single-agent skill package (SKILL.md + TASK.md + resources/) on disk.
+---
+# Agent Skill Architect
+## System Persona & Capabilities
+You are an AI Systems Architect specializing in single-agent context engineering, modular skill design, and self-reflecting execution tasks. You convert high-level user specifications into production-grade Agent Skill Packages persisted to the local file system. Context must stay lean: generated skills are loaded on demand when task descriptions match their frontmatter metadata (progressive disclosure).
+**You do:**
+- Parse a capability, domain process, or automation specification and isolate its core functionality.
+- Assign a canonical kebab-case `<skill-name>` and resolve the destination directory.
+- Author `SKILL.md` (persona, prerequisites, deterministic protocol, guardrails) with routing-optimized YAML frontmatter.
+- Author `TASK.md` — a homoiconic, checkable state file tracking intent, phase gates, review, and reflection in one artifact.
+- Author static supporting artifacts (templates, JSON schemas, validation rubrics) under `resources/`.
+- Write every file directly to disk, then run a verification loop on the results.
+**You do NOT:**
+- Design for multi-agent systems: no supervisor layers, no inter-agent messaging, no delegation protocols.
+- Execute the packaged skill's domain task itself — you only package capabilities.
+- Emit conversational filler or partial, truncated, or placeholder-ridden artifacts.
+## Environment Prerequisites
+- A file-writing tool with direct disk access (e.g., `write_to_file` / `editor`) and a non-interactive shell for directory creation and syntax validation.
+- Write access to the base target directory: `C:\Users\Admin\Documents\AISkills\`
+- UTF-8 file encoding.
+- No network access, external CLI dependencies, or configuration keys required.
+## Step-by-Step Protocol
+### Step 1 — Capability & Path Resolution
+1. Parse the user request; isolate the core functionality to encapsulate.
+2. Assign a canonical `<skill-name>`: kebab-case, matching `^[a-z0-9]+(-[a-z0-9]+)*$`.
+3. Formulate the destination directory: `C:\Users\Admin\Documents\AISkills\<skill-name>\`.
+4. Load `resources/template.json` for the required file schema and naming rules.
+### Step 2 — Content Construction
+1. Draft `SKILL.md` per `resources/template.json`: YAML frontmatter (`name`, `description`), System Persona & Capabilities, Environment Prerequisites, Step-by-Step Protocol, Guardrails & Constraints.
+2. Keep the frontmatter `description` a concise, high-precision routing tagline (max 160 characters) optimized for router tool-matching — never an essay.
+3. Build `TASK.md` with Header & Intent, three checkable execution phases using `- [ ]` gate syntax, and a Reflection & Docs section.
+4. Formulate the static templates, schemas, or rubrics the skill needs into `resources/`.
+### Step 3 — Direct-to-Disk Execution
+1. Create the directory tree cleanly: `<skill-name>\` and `<skill-name>\resources\`.
+2. Invoke the file-writing tool once per artifact at its absolute destination path.
+3. Write complete file contents in each call; never truncate output or leave placeholders in shipped artifacts.
+### Step 4 — Verification Loop
+1. Re-read every written file from disk.
+2. Confirm every resource path referenced inside the generated `SKILL.md` resolves relative to its package root (e.g., `resources/validation_rubric.md`).
+3. Validate syntax: YAML frontmatter parses, JSON parses with no trailing commas, all Markdown code fences are balanced.
+4. Score the package against `resources/validation_rubric.md`; every gate MUST pass. Record the run in the target package's `TASK.md` under Reflection & Docs.
+## Guardrails & Constraints
+- MUST write all artifacts directly to disk under `C:\Users\Admin\Documents\AISkills\<skill-name>\` using tool calls — never only in chat.
+- MUST keep frontmatter descriptions under 160 characters and routing-optimized.
+- MUST design every package for single-agent isolation.
+- MUST reference resources with relative paths (`resources/<file>`), never absolute paths, inside generated `SKILL.md` files.
+- MUST NOT reference external supervisors, orchestrators, or multi-agent messaging layers in generated artifacts.
+- MUST NOT emit conversational filler; deliver direct tool invocations plus a concise execution summary.
+- MUST NOT ship artifacts containing TODO/FIXME/lorem placeholders or empty sections; process variables such as `<skill-name>` are permitted only where they denote runtime inputs.
+## Resources
+- [resources/template.json](resources/template.json) — canonical package schema, naming rules, and file skeletons.
+- [resources/validation_rubric.md](resources/validation_rubric.md) — pass/fail quality gates for the Phase 3 self-audit.
+*
+editor(.../C:\Users\Admin\Documents\AISkills\agent-skill-architect\TASK.md)
+⎿ +44 lines (new) | markdown
+# TASK.md — agent-skill-architect run state
+> Homoiconic state layer for this skill. On each invocation, instantiate this file for the target package, check gates as they complete, and append to Reflection & Docs. The file is both plan and record.
+## Header & Intent
+- **Statement of Work:** Convert the incoming user specification (capability, domain process, or automation task) into a standalone, production-grade agent skill package.
+- **Target State:** `SKILL.md`, `TASK.md`, and `resources/` (template + validation rubric) persisted at `C:\Users\Admin\Documents\AISkills\<skill-name>\`, verified against `resources/validation_rubric.md`.
+- **Target Skill:** `<skill-name>`
+- **Run ID:** `<YYYY-MM-DDThh-mm-ss>`
+## Execution Phase Checklist
+### Phase 1: Planning & Context Loading
+- [ ] Parsed the user specification and isolated the core capability
+- [ ] Assigned canonical kebab-case `<skill-name>` (`^[a-z0-9]+(-[a-z0-9]+)*$`)
+- [ ] Resolved destination directory `C:\Users\Admin\Documents\AISkills\<skill-name>\`
+- [ ] Loaded `resources/template.json` and `resources/validation_rubric.md`
+### Phase 2: Core Execution
+- [ ] Drafted `SKILL.md` (frontmatter, persona, prerequisites, protocol, guardrails)
+- [ ] Drafted `TASK.md` (header & intent, phase gates, reflection section)
+- [ ] Drafted `resources/` artifacts (template + validation rubric, plus skill-specific schemas)
+- [ ] Created directory tree cleanly without truncating file contents
+- [ ] Wrote every file to disk with complete content
+### Phase 3: Self-Audit & Quality Review
+- [ ] Re-read every written file from disk
+- [ ] Verified all `SKILL.md` resource references resolve as relative paths
+- [ ] Validated YAML frontmatter, JSON, and Markdown fence syntax
+- [ ] Scored package against `resources/validation_rubric.md` — all gates pass
+- [ ] Recorded timestamps, intermediate outputs, and learnings below
+## Reflection & Docs
+### Run Log
+| Timestamp | Phase | Output / Artifact | Notes |
+|---|---|---|---|
+| 2026-07-25 | Genesis | `agent-skill-architect` package created | Seed entry — extend per run |
+### Intermediate Outputs
+<!-- Paste resolved paths, naming decisions, and key drafts for the current run. -->
+### Post-Execution Learnings
+<!-- What worked, what failed, what to change in the next run. -->
+*
+editor(.../C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\template.json)
+⎿ +67 lines (new) | json
+{
+  "$schema": "agent-skill-package/v1",
+  "package": {
+    "base_directory": "C:\\Users\\Admin\\Documents\\AISkills",
+    "root": "C:\\Users\\Admin\\Documents\\AISkills\\<skill-name>",
+    "naming": {
+      "rule": "kebab-case",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "files": [
+      {
+        "path": "SKILL.md",
+        "required": true,
+        "frontmatter": {
+          "required_keys": ["name", "description"],
+          "name_must_match_folder": true,
+          "description_max_chars": 160,
+          "description_style": "concise routing tagline optimized for tool-matching; no essays"
+        },
+        "required_sections": [
+          "System Persona & Capabilities",
+          "Environment Prerequisites",
+          "Step-by-Step Protocol",
+          "Guardrails & Constraints",
+          "Resources"
+        ]
+      },
+      {
+        "path": "TASK.md",
+        "required": true,
+        "required_sections": [
+          "Header & Intent",
+          "Execution Phase Checklist",
+          "Phase 1: Planning & Context Loading",
+          "Phase 2: Core Execution",
+          "Phase 3: Self-Audit & Quality Review",
+          "Reflection & Docs"
+        ],
+        "gate_syntax": "- [ ]",
+        "homoiconic": true
+      },
+      {
+        "path": "resources/template.json",
+        "required": true,
+        "alternatives": ["resources/template.md"],
+        "purpose": "static schema or template referenced by SKILL.md"
+      },
+      {
+        "path": "resources/validation_rubric.md",
+        "required": true,
+        "purpose": "pass/fail quality gates used in the Phase 3 self-audit"
+      }
+    ]
+  },
+  "skeletons": {
+    "skill_frontmatter": "---\nname: <skill-name>\ndescription: <routing tagline, <=160 chars>\n---",
+    "task_gates": "- [ ] Phase 1: Planning & Context Loading\n- [ ] Phase 2: Core Execution\n- [ ] Phase 3: Self-Audit & Quality Review"
+  },
+  "constraints": {
+    "single_agent_only": true,
+    "no_multi_agent_references": true,
+    "no_placeholders_in_shipped_artifacts": true,
+    "resource_references_must_be_relative": true,
+    "no_conversational_filler": true
+  }
+}
+*
+editor(.../C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\validation_rubric.md)
+⎿ +36 lines (new) | markdown
+▶ Thinking: ...ate JSON parses, check description tagline length, and show the tree. Batch read_files + run_commands together since they're independent.
+*
+All four artifacts written. Executing Step 4 — Verification Loop: re-reading every file from disk, parse-validating the JSON, measuring the routing tagline length, and confirming the tree structure:
+*
+read_files(.../C:\Users\Admin\Documents\AISkills\agent-skill-architect\SKILL.md, start_line=undefined, end_line=undefined; .../C:\Users\Admin\Documents\AISkills\agent-skill-architect\TASK.md, start_line=undefined, end_line=undefined; .../C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\template.json, start_line=undefined, end_line=undefined; .../C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\validation_rubric.md, start_line=undefined, end_line=undefined)
+⎿ 210 lines | markdown
+*
+run_commands(try { Get-Content "C:\Users\Admin\Documents\AISkills\agent-skill-architect\resources\template.json" -Raw | ConvertFrom-Json | Out-Null; "template.json : VALID JSON" } catch { "template.json : INVALID - $_" } && $line = (Get-Content "C:\Users\Admin\Documents\AISkills\agent-skill-architect\SKILL.md" | Select-String '^description:').Line; $tag = ($line -replace '^description:\s*',''); "tagline length: $($tag.Length) chars (limit 160)" && Get-ChildItem -Recurse "C:\Users\Admin\Documents\AISkills\agent-skill-architect" | ForEach-Object { "{0}  [{1} bytes]" -f $_.FullName.Replace('C:\Users\Admin\Documents\AISkills\',''), $_.Length })
+⎿ template.json : VALID JSON
+   ... 8 more lines
+▶ Thinking: ...ow deliver the concise execution summary per the role spec ("direct tool invocation calls and a concise execution summary"). Score: SHIP.
+*
+Execution Summary — Verification Complete
+All artifacts persisted and audited. Package score against resources/validation_rubric.md: all gates pass → SHIP.
+Persisted Artifacts
+C:\Users\Admin\Documents\AISkills\agent-skill-architect\
+├── SKILL.md                          [4,898 bytes]
+├── TASK.md                           [2,299 bytes]
+└── resources\
+    ├── template.json                 [2,135 bytes]
+    └── validation_rubric.md          [2,395 bytes]
+Verification Results (Step 4 Loop)
+Check
+Disk read-back of all 4 files
+template.json parses via ConvertFrom-Json
+Frontmatter tagline length
+Frontmatter keys exactly name + description; name kebab-case, matches folder
+Relative resource references in SKILL.md (resources/template.json, resources/validation_rubric.md) resolve on disk
+Required sections per template.json schema present in both SKILL.md and TASK.md
+Markdown fences balanced / UTF-8 clean
+Single-agent isolation — no supervisor/multi-agent references
+Package Contents
+- SKILL.md — Persona with explicit do/do-NOT boundaries, environment prerequisites, the deterministic 4-step protocol (Capability & Path Resolution → Content Construction → Direct-to-Disk Execution → Verification Loop), and 7 MUST/MUST NOT guardrails.
+- TASK.md — Homoiconic state file: Header & Intent, three checkable phase gates (- [ ] syntax), and a Reflection & Docs section seeded with the genesis run-log entry.
+- resources/template.json — Machine-readable v1 package schema: naming regex, required files/sections, frontmatter rules, and reusable skeletons.
+- resources/validation_rubric.md — 16 pass/fail gates across Structure, SKILL.md quality, TASK.md quality, Syntax & Integrity, and Single-Agent Isolation.
+Note on interpretation: Your message specified the architect role and contract but included no separate domain capability spec, so I encapsulated the architect capability itself as the canonical meta-skill. Send any capability, domain process, or automation spec and I will package it to C:\Users\Admin\Documents\AISkills\<skill-name>\ using this same pipeline.

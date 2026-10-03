@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "last_updated": "2026-06-30T10:00:00-04:00",
+  "description": "Verifier pass outputs. The orchestrator runs a periodic verifier (every Config/agents/hermes.yaml → sla.verifier_interval_minutes) that checks Chat/ for protocol violations, stale messages, and ungrounded claims.",
+  "runs": [],
+  "summary": {
+    "total_runs": 0,
+    "last_pass": null,
+    "open_issues": 0
+  },
+  "notes": "Empty at template bootstrap. First run will populate."
+}

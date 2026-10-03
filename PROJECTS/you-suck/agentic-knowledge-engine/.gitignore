@@ -1,0 +1,12 @@
+# Runtime
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+data/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/

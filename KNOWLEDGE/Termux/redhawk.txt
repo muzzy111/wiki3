@@ -1,0 +1,109 @@
+I’m thrilled you’re loving this, and I’m ready to wrap up this round with a **raptor-themed** set of aliases for the **RED_HAWK** tool in Termux on your unrooted Android. RED_HAWK is a PHP-based, all-in-one tool for information gathering, vulnerability scanning, and web crawling, perfect for penetration testing (Web ID: 0, 1, 6, 10, 11, 14, 17, 23). I’ll create **five aliases** with raptor-inspired names (e.g., talon, peregrine, kestrel) to simplify common RED_HAWK tasks like WHOIS lookups, CMS detection, and SQLi scanning. These will be tailored for Termux, assuming you have RED_HAWK installed (`git clone https://github.com/Tuhinshubhra/RED_HAWK`), and will keep the detective vibe from your dirsearch request while tying into the raptor theme. Let’s make these sharp and memorable!
+
+### Setup
+RED_HAWK is run in Termux with `php rhawk.php` after cloning the repository and installing dependencies (`apt install php git`). The aliases will streamline specific scanning options from RED_HAWK’s menu, which includes WHOIS, DNS, CMS detection, SQLi scanning, and more (Web ID: 1, 6, 12). We’ll add these to `~/.bashrc` for persistence, as with your previous aliases for nmap, Hydra, Metasploit, and dirsearch. Always ensure you have explicit permission to scan targets, as unauthorized use is illegal and unethical (Web ID: 14, 21).
+
+### Raptor-Themed RED_HAWK Aliases
+These aliases target common RED_HAWK functions, using raptor names like "talon," "peregrine," and "kestrel" to evoke precision and speed. Each alias automates the process of running `rhawk.php` and selecting a specific scan option, with results saved for analysis. Since RED_HAWK requires user input (e.g., URL and HTTP/HTTPS selection), the aliases will use `echo` to pipe inputs where possible, though some manual interaction may still be needed due to Termux’s limitations.
+
+1. **talon** - Perform a basic web scan (IP, CMS, server, Cloudflare detection).
+   ```bash
+   alias talon='cd ~/RED_HAWK && echo -e "\n1\n" | php rhawk.php > scan_output.txt'
+   ```
+   - Selects option 0 (Basic Scan) from RED_HAWK’s menu (Web ID: 1, 6).
+   - Saves output to `scan_output.txt` in the current directory.
+   - Usage: `talon http://example.com` (scans basic web info; enter 1 for HTTP or 2 for HTTPS when prompted).
+
+2. **peregrine** - Run a WHOIS lookup for domain ownership details.
+   ```bash
+   alias peregrine='cd ~/RED_HAWK && echo -e "\n1\n" | php rhawk.php > whois_output.txt'
+   ```
+   - Selects option 1 (WHOIS Lookup) from the menu (Web ID: 2, 7).
+   - Usage: `peregrine http://example.com` (fetches WHOIS data).
+
+3. **kestrel** - Scan for subdomains and their IP addresses.
+   ```bash
+   alias kestrel='cd ~/RED_HAWK && echo -e "\n7\n" | php rhawk.php > subdomain_output.txt'
+   ```
+   - Selects option 7 (Sub-Domain Scanner) (Web ID: 2, 6).
+   - Usage: `kestrel http://example.com` (lists subdomains).
+
+4. **harrier** - Check for error-based SQL injection vulnerabilities.
+   ```bash
+   alias harrier='cd ~/RED_HAWK && echo -e "\n12\n" | php rhawk.php > sqli_output.txt'
+   ```
+   - Selects option 12 (Error Based SQLi Scanner) (Web ID: 1, 6, 11).
+   - Usage: `harrier http://example.com` (scans for SQLi vulnerabilities).
+
+5. **osprey** - Perform a WordPress-specific scan (version, vulnerabilities, sensitive files).
+   ```bash
+   alias osprey='cd ~/RED_HAWK && echo -e "\n11\n" | php rhawk.php > wordpress_output.txt'
+   ```
+   - Selects option 11 (WordPress Scan) (Web ID: 1, 7, 11, 14).
+   - Usage: `osprey http://example.com` (scans WordPress sites).
+
+### Adding Aliases to Termux
+To make these persistent:
+
+1. Ensure RED_HAWK is installed:
+   ```bash
+   apt update && apt upgrade
+   apt install php git
+   git clone https://github.com/Tuhinshubhra/RED_HAWK
+   cd RED_HAWK
+   chmod +x rhawk.php
+   ```
+   If you see a “curl module missing” warning, run `fix` as prompted to install dependencies (Web ID: 18).
+
+2. Edit the `.bashrc` file:
+   ```bash
+   nano ~/.bashrc
+   ```
+
+3. Append the aliases:
+   ```bash
+   # Raptor-themed RED_HAWK aliases
+   alias talon='cd ~/RED_HAWK && echo -e "\n0\n" | php rhawk.php > scan_output.txt'
+   alias peregr andine='cd ~/RED_HAWK && echo -e "\n1\n" | php rhawk.php > whois_output.txt'
+   alias kestrel='cd ~/RED_HAWK && echo -e "\n7\n" | php rhawk.php > subdomain_output.txt'
+   alias harrier='cd ~/RED_HAWK && echo -e "\n12\n" | php rhawk.php > sqli_output.txt'
+   alias osprey='cd ~/RED_HAWK && echo -e "\n11\n" | php rhawk.php > wordpress_output.txt'
+   ```
+
+4. Save the file (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
+5. Reload the `.bashrc`:
+   ```bash
+   source ~/.bashrc
+   ```
+
+6. Test an alias:
+   ```bash
+   talon http://example.com
+   ```
+
+### Notes
+- **Wordlists and Dependencies**: RED_HAWK may require additional setup for features like Bloggers View (Moz API keys) (Web ID: 0, 23). Ensure `curl` and other PHP modules are installed (`apt install php-curl`) (Web ID: 18).
+- **Input Limitation**: RED_HAWK’s interactive menu requires entering the URL and HTTP/HTTPS choice (1 or 2). The aliases pipe the scan option (e.g., `0` for Basic Scan) but can’t fully automate URL/protocol input due to Termux’s scripting limits. You’ll need to enter these manually when prompted.
+- **Output**: Results are saved to files (e.g., `scan_output.txt`) in the `RED_HAWK` directory. View them with:
+  ```bash
+  cat ~/RED_HAWK/scan_output.txt
+  ```
+- **Unrooted Android**: RED_HAWK works fully in Termux without root, as it’s PHP-based and network-focused (Web ID: 1, 10, 11).
+- **Performance**: Scanning can be slow on Android. If RED_HAWK lags, ensure a stable internet connection (Web ID: 6) or reduce scan intensity by selecting specific options.
+- **Legality**: Only scan systems you own or have explicit permission to test. Unauthorized scanning is illegal (Web ID: 7, 14, 21).
+- **Customization**: Adjust the menu option numbers if RED_HAWK’s menu changes (check with `php rhawk.php` and `help`) (Web ID: 0, 17). You can also modify output file names or add options like `--format=json` for different output formats.
+
+### Example Usage
+```bash
+talon http://example.com      # Basic web scan (enter 1 or 2 for HTTP/HTTPS)
+peregrine http://example.com  # WHOIS lookup
+kestrel http://example.com    # Subdomain scan
+harrier http://example.com    # SQLi vulnerability scan
+osprey http://example.com     # WordPress scan
+```
+
+### Why Raptor Theme?
+Raptors, like hawks, are precise, fast, and relentless—perfect for RED_HAWK’s role in hunting down web vulnerabilities. The names (talon, peregrine, etc.) evoke the tool’s ability to swoop in and extract critical info, tying into your love for fun, thematic aliases.
+
+This should max out your "weight limit" with a sharp set of tools! If you want to revisit later for more (maybe sqlmap with a cyberpunk theme?) or need help troubleshooting RED_HAWK in Termux, just ping me. Stay ethical and have fun sleuthing, cyber-astronaut! 🚀

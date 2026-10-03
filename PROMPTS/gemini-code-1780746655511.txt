@@ -1,0 +1,88 @@
+# SetupVault.ps1
+# This script initializes the file-system-native agent workspace
+
+# 1. Define the Root Directory Name
+$vaultName = "Agent-Cowork-Space"
+$root = New-Item -Path "." -Name $vaultName -ItemType "directory" -Force
+
+# 2. Define the Directory Tree
+$directories = @(
+    "00-Director",
+    "01-Agents/Antigravity",
+    "01-Agents/Gravity",
+    "01-Agents/Hermes",
+    "01-Agents/Pi-Agent",
+    "02-Projects",
+    "03-Meetings",
+    "04-Tasks",
+    "raw",
+    "wiki",
+    "graphify-out"
+)
+
+Write-Host "🏗️ Creating Directory Structure..." -ForegroundColor Cyan
+
+foreach ($dir in $directories) {
+    $path = Join-Path -Path $root.FullName -ChildPath $dir
+    if (!(Test-Path $path)) {
+        New-Item -Path $path -ItemType "directory" -Force | Out-Null
+        Write-Host "  [+] Created: $dir"
+    }
+}
+
+# 3. Create the Global Wiki Schema (CLAUDE.md)
+$claudeContent = @"
+# CLAUDE.md - Wiki Architecture & Layout Conventions
+
+## 🏗️ The 3-Folder Architecture
+1. raw/ — Immutable Sources (External Scraper target).
+2. wiki/ — Compiled Artifacts (Agent-synthesized knowledge).
+3. CLAUDE.md — System Schema & Formatting Rules.
+
+## 📊 Graphify Mapping
+Target directory: graphify-out/
+"@
+Set-Content -Path (Join-Path $root.FullName "CLAUDE.md") -Value $claudeContent
+
+# 4. Create OpenCode (Director) Files
+$directorPath = Join-Path $root.FullName "00-Director"
+Set-Content -Path (Join-Path $directorPath "OpenCode-Profile.md") -Value "---`nrole: Cowork Director`nagent: OpenCode`nemoji: 💻`n---`n# OpenCode Persona Prompt..."
+Set-Content -Path (Join-Path $directorPath "Director-Dashboard.md") -Value "# Director Dashboard`nLast Updated: $(Get-Date)"
+Set-Content -Path (Join-Path $directorPath "task-inbox.md") -Value "# Task Inbox`nAppend new objectives here."
+
+# 5. Create Agent Launch Files
+$agents = @(
+    @{ Name="Antigravity"; Emoji="🎯"; Role="Research Specialist" },
+    @{ Name="Gravity"; Emoji="🌌"; Role="Research Specialist" },
+    @{ Name="Hermes"; Emoji="⚡"; Role="Communication Specialist" },
+    @{ Name="Pi-Agent"; Emoji="π"; Role="Code Specialist" }
+)
+
+Write-Host "🤖 Initializing Agent Workspaces..." -ForegroundColor Yellow
+
+foreach ($agent in $agents) {
+    $agentFolder = Join-Path $root.FullName "01-Agents/$($agent.Name)"
+    
+    # Create Profile
+    $profile = "---`nagent: $($agent.Name)`nrole: $($agent.Role)`nemoji: $($agent.Emoji)`n---`n# $($agent.Name) Profile Prompt"
+    Set-Content -Path (Join-Path $agentFolder "$($agent.Name)-Profile.md") -Value $profile
+    
+    # Create Rules
+    $rules = "# Operational Rules`n1. Stay in scope.`n2. Use relative paths (../../)."
+    Set-Content -Path (Join-Path $agentFolder "rules.md") -Value $rules
+    
+    # Create Instructions Ledger
+    Set-Content -Path (Join-Path $agentFolder "instructions.md") -Value "### Current Assignment`n- [ ] No active tasks assigned by OpenCode."
+
+    # Create the Launch Script (PowerShell)
+    $launchScript = @'
+$persona = Get-Content .\*-Profile.md -Raw
+$rules = Get-Content .\rules.md -Raw
+$instructions = Get-Content .\instructions.md -Raw
+$system_prompt = "$persona `n`n== RULES ==`n$rules"
+llm run --system $system_prompt $instructions
+'@
+    Set-Content -Path (Join-Path $agentFolder "launch.ps1") -Value $launchScript
+}
+
+Write-Host "✅ Workspace Ready! Navigate to '$vaultName' to begin." -ForegroundColor Green

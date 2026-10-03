@@ -1,0 +1,116 @@
+I'll create a series of Termux alias commands for nmap using a **cartography theme**, as it aligns well with mapping networks. These aliases will simplify common nmap tasks for reconnaissance and scanning on an unrooted Android device using Termux. I’ll assume you have nmap installed (`pkg install nmap`) and are familiar with basic Termux usage.
+
+### Setup
+Aliases in Termux are typically added to the `~/.termux/termux.properties` file or a shell configuration file like `~/.bashrc` (for bash). Since Termux uses bash by default, I’ll provide instructions for adding aliases to `~/.bashrc`.
+
+### Cartography-Themed Nmap Aliases
+Below are aliases designed for common nmap tasks, with names inspired by cartography terms like "survey," "chart," "compass," and "topography." Each alias includes a brief explanation of its purpose.
+
+1. **survey** - Quick TCP scan to identify live hosts and open ports.
+   ```bash
+   alias survey='nmap -sS -T4 -Pn'
+   ```
+   - `-sS`: TCP SYN scan (stealthy, doesn't complete connections).
+   - `-T4`: Faster scanning speed.
+   - `-Pn`: Skip host discovery (assume host is up).
+   - Usage: `survey 192.168.1.0/24` (scans subnet for live hosts).
+
+2. **chart** - Detailed scan with OS and service version detection.
+   ```bash
+   alias chart='nmap -sS -sV -O -T4 -Pn'
+   ```
+   - `-sV`: Detect service versions.
+   - `-O`: Enable OS detection.
+   - Usage: `chart 192.168.1.100` (detailed scan of a single host).
+
+3. **compass** - Fast ping sweep to find live hosts.
+   ```bash
+   alias compass='nmap -sn -T4'
+   ```
+   - `-sn`: Ping scan (no port scanning, just host discovery).
+   - Usage: `compass 192.168.1.0/24` (finds live hosts in subnet).
+
+4. **topography** - Comprehensive scan with scripts for vulnerability detection.
+   ```bash
+   alias topography='nmap -sS -sV -O --script=vuln -T4 -Pn'
+   ```
+   - `--script=vuln`: Run nmap's vulnerability scanning scripts.
+   - Usage: `topography 192.168.1.100` (deep scan with vuln checks).
+
+5. **atlas** - UDP scan for less common services.
+   ```bash
+   alias atlas='nmap -sU -T4 -Pn'
+   ```
+   - `-sU`: UDP scan (useful for DNS, SNMP, etc.).
+   - Usage: `atlas 192.168.1.100` (scans UDP ports).
+
+6. **meridian** - Quick scan for common ports only.
+   ```bash
+   alias meridian='nmap --top-ports 100 -T4 -Pn'
+   ```
+   - `--top-ports 100`: Scan the 100 most common ports.
+   - Usage: `meridian 192.168.1.0/24` (fast scan of common ports).
+
+7. **legend** - Save scan results to a file for later analysis.
+   ```bash
+   alias legend='nmap -oN scan_output.txt -T4 -Pn'
+   ```
+   - `-oN`: Output results in normal format to `scan_output.txt`.
+   - Usage: `legend 192.168.1.100` (saves scan results).
+
+8. **grid** - Aggressive scan with timing optimization for speed.
+   ```bash
+   alias grid='nmap -A -T4 -Pn'
+   ```
+   - `-A`: Enable aggressive mode (OS, version, script scanning, traceroute).
+   - Usage: `grid 192.168.1.100` (all-in-one aggressive scan).
+
+### Adding Aliases to Termux
+To make these aliases persistent in Termux:
+
+1. Open Termux and create/edit the `.bashrc` file:
+   ```bash
+   nano ~/.bashrc
+   ```
+
+2. Add the aliases to the file:
+   ```bash
+   # Cartography-themed nmap aliases
+   alias survey='nmap -sS -T4 -Pn'
+   alias chart='nmap -sS -sV -O -T4 -Pn'
+   alias compass='nmap -sn -T4'
+   alias topography='nmap -sS -sV -O --script=vuln -T4 -Pn'
+   alias atlas='nmap -sU -T4 -Pn'
+   alias meridian='nmap --top-ports 100 -T4 -Pn'
+   alias legend='nmap -oN scan_output.txt -T4 -Pn'
+   alias grid='nmap -A -T4 -Pn'
+   ```
+
+3. Save the file (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
+4. Reload the `.bashrc` to apply the aliases:
+   ```bash
+   source ~/.bashrc
+   ```
+
+5. Verify an alias works:
+   ```bash
+   survey 192.168.1.1
+   ```
+
+### Notes
+- **Permissions**: On an unrooted Android, nmap in Termux can perform most scans, but some features (e.g., certain OS detection or raw packet scans) may be limited due to lack of root access. The aliases above avoid root-dependent options.
+- **Network**: Ensure you have permission to scan the target network. Unauthorized scanning is illegal and unethical.
+- **Customization**: You can modify these aliases (e.g., adjust `-T4` to `-T3` for slower scans or add specific ports with `-p`).
+- **Storage**: Scan outputs (e.g., `legend`) save to `scan_output.txt` in your current directory. Use `termux-toast` or `cat` to view results on Android.
+- **Performance**: On Android, nmap can be resource-intensive. Use `-T3` or `-T2` if scans are slow on your device.
+
+### Example Usage
+```bash
+survey 192.168.1.0/24  # Quick scan of a subnet
+chart 192.168.1.100    # Detailed scan of a single host
+compass 10.0.0.0/24    # Find live hosts
+topography 192.168.1.10 # Vulnerability scan
+```
+
+If you need more aliases or want to tweak these for specific use cases (e.g., scanning specific ports or adding verbosity), let me know!

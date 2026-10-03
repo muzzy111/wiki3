@@ -29,9 +29,21 @@ def _safe_path(rel: str) -> Path:
     if not rel or rel.startswith("\\0") or "\\0" in rel:
         raise ValueError("invalid path: empty or null-byte")
     p = (VAULT_ROOT / rel).resolve()
-    if VAULT_ROOT not in p.parents and p != VAULT_ROOT:
-        raise ValueError(f"path traversal blocked: {rel!r}")
-    return p
+    
+    # Case-insensitive path traversal check on Windows
+    resolved = p.resolve()
+    root_resolved = VAULT_ROOT.resolve()
+    if os.name == "nt":
+        resolved_str = str(resolved).lower()
+        root_resolved_str = str(root_resolved).lower()
+        if resolved_str != root_resolved_str:
+            sep = os.sep.lower()
+            if not resolved_str.startswith(root_resolved_str + sep):
+                raise ValueError(f"path traversal blocked: {rel!r}")
+    else:
+        if root_resolved not in resolved.parents and resolved != root_resolved:
+            raise ValueError(f"path traversal blocked: {rel!r}")
+    return resolved
 
 
 @mcp.tool()

@@ -1,0 +1,29 @@
+tiers:
+  level_1_tiny:
+    default_model: "ollama/llama3:8b"
+    fallback_model: "openrouter/meta-llama/llama-3-8b-instruct"
+    max_token_budget: 1000
+    hourly_rate_limit: 50
+    actions: ["classify", "rename", "regex-extract", "tagging"]
+
+  level_2_standard:
+    default_model: "gemini/gemini-1.5-flash"
+    fallback_model: "openrouter/google/gemini-flash-1.5"
+    max_token_budget: 8000
+    actions: ["summarize", "explanation", "rewrite"]
+
+  level_3_reasoning:
+    default_model: "openrouter/deepseek/deepseek-chat"
+    fallback_model: "openai/gpt-4o-mini"
+    max_token_budget: 16000
+    actions: ["coding", "literature-synthesis", "search-planning"]
+
+  level_4_premium:
+    default_model: "anthropic/claude-3-5-sonnet"
+    fallback_model: "openai/gpt-4o"
+    max_token_budget: 32000
+    actions: ["architecture-review", "complex-debugging", "synthesis"]
+
+budget_governance:
+  max_spend_per_workflow_usd: 0.25
+  downgrade_threshold: 0.80 # Downgrade to lower tier model when spending hits 80%

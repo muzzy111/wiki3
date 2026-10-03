@@ -1,0 +1,81 @@
+# docker-compose.yml — n8n MCP server
+#
+# This compose file runs the MCP server in TWO optional modes:
+#
+#   1. `mcp` service (default) — the MCP server only. Assumes n8n is
+#      already running elsewhere (locally on host.docker.internal:5678
+#      or at a remote URL). This is the typical case.
+#
+#   2. `n8n` service (optional) — runs n8n alongside the MCP server.
+#      Uncomment the `n8n` service block below if you want a
+#      self-contained stack. Both services share the `n8n-net` network
+#      so they can reach each other by service name.
+#
+# The MCP transport is stdio (the official mcp/n8n image is stdio-only).
+# Port mapping is NOT used — the host agent launches the container and
+# communicates over stdin/stdout. See README.md for host registration.
+
+services:
+  # ---------------------------------------------------------------------------
+  # The MCP server. Drop-in, stdio transport.
+  # ---------------------------------------------------------------------------
+  mcp:
+    image: mcp/n8n:latest
+    container_name: n8n-mcp-server
+    restart: unless-stopped
+    # stdio MCP: NO port mapping. The host attaches stdin/stdout.
+    # The `stdin_open: true` + `tty: true` pair is the standard pattern
+    # for stdio MCP servers in compose.
+    stdin_open: true
+    tty: true
+    environment:
+      # Point at an n8n instance. Three common cases:
+      #
+      #   a) n8n runs on the Docker host (this machine) at port 5678:
+      #      N8N_API_URL: http://host.docker.internal:5678
+      #
+      #   b) n8n runs as another container on the same compose network:
+      #      N8N_API_URL: http://n8n:5678
+      #
+      #   c) n8n runs on a remote machine / cloud:
+      #      N8N_API_URL: https://n8n.example.com
+      N8N_API_URL: ${N8N_API_URL:-http://host.docker.internal:5678}
+      N8N_API_KEY: ${N8N_API_KEY:?N8N_API_KEY is required — set it in .env}
+      # Optional: enforce a per-request timeout (seconds). Default 30.
+      # N8N_TIMEOUT: "30"
+    networks:
+      - n8n-net
+    # Note: do NOT add `ports:`. stdio MCP servers are not reachable
+    # over TCP — the host agent pipes stdio directly.
+
+  # ---------------------------------------------------------------------------
+  # Optional: bundled n8n instance. Uncomment to run n8n locally as
+  # part of the same stack. When enabled, set
+  #   N8N_API_URL=http://n8n:5678
+  # in your .env so the MCP service can reach it by service name.
+  # ---------------------------------------------------------------------------
+  # n8n:
+  #   image: n8nio/n8n:latest
+  #   container_name: n8n
+  #   restart: unless-stopped
+  #   ports:
+  #     - "5678:5678"
+  #   environment:
+  #     N8N_HOST: ${N8N_HOST:-localhost}
+  #     N8N_PORT: 5678
+  #     N8N_PROTOCOL: http
+  #     # Required for cookie-based auth. Generate with: openssl rand -hex 32
+  #     N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?required when running n8n here}
+  #     DB_SQLITE_DATABASE: /home/node/.n8n/database.sqlite
+  #     GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-UTC}
+  #   volumes:
+  #     - n8n-data:/home/node/.n8n
+  #   networks:
+  #     - n8n-net
+
+networks:
+  n8n-net:
+    driver: bridge
+
+# volumes:
+#   n8n-data:

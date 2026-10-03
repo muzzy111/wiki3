@@ -1,0 +1,24 @@
+services:
+  knowledge-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: agentic-knowledge-engine:1.0.0
+    container_name: agentic-knowledge-engine
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Re-affirm paths so they always point inside the mounted volume.
+      DATA_DIR: /data
+      INBOX_DIR: /data/inbox
+      NOTES_DIR: /data/notes
+      ARCHIVE_DIR: /data/archive
+      QUARANTINE_DIR: /data/quarantine
+    volumes:
+      # The single host directory that powers the whole engine.
+      # Drop raw .md / .txt files into ./data/inbox; synthesized notes appear in ./data/notes.
+      - ./data:/data
+    # Health check is defined inside the Dockerfile; just expose the port.
+    ports:
+      - "8000:8000"

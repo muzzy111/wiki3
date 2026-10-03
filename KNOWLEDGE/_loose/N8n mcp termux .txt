@@ -1,0 +1,38 @@
+have created the n8n-mcp.sh script. Before you
+  can run it, you need to make it executable. I'll
+  do that now.
+ ╭───────────────────────────────────────────────────╮
+ │ ✔  Shell chmod +x /data/data/com.termux/files/h…  │
+ ╰───────────────────────────────────────────────────╯
+✦ The n8n-mcp.sh script is now executable.
+
+
+  To start the n8n MCP server, you will need to
+  first start the regular n8n server, get the API
+  key, and then run the n8n-mcp.sh script,
+  providing the API key when prompted.
+
+  Here are the steps:
+
+   1. Start the n8n server:
+
+
+   1     ~/Termux-Udocker/n8n.sh
+
+   2. Get the API key:
+       * Open the n8n UI in your browser (usually
+         at http://localhost:5678).
+       * Go to Settings > API.
+       * Copy the API key.
+   3. Start the n8n MCP server:
+
+   1     ~/Termux-Udocker/n8n-mcp.sh
+
+   4. Enter the API key:
+       * When prompted, paste the API key you
+         copied from the n8n UI.
+
+
+  Now you have a running n8n MCP server that you
+  can control from the Termux CLI. Let me know if
+  you have any other questions.

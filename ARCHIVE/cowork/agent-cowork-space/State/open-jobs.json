@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "last_updated": "2026-06-30T10:00:00-04:00",
+  "description": "Open jobs awaiting pickup. When an agent claims a job, they move it to active-jobs.json via patch.",
+  "jobs": [],
+  "summary": {
+    "total": 0,
+    "by_priority": {
+      "blocker": 0,
+      "high": 0,
+      "normal": 0,
+      "low": 0
+    }
+  },
+  "notes": "Empty at template bootstrap. The orchestrator seeds this file when work is queued."
+}

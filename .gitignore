@@ -37,3 +37,18 @@ CANVAS/plugins/
 *.wav
 *.png
 *.jpg
+
+# Added 2026-10-03 (vault rebuild)
+desktop.ini
+.env
+.env.*
+!.env.example
+!.env.*.example
+.venv/
+venv/
+.ok/local/
+graphify-out/
+.obsidian/workspace*.json
+.obsidian/plugins/*/data.json
+.claude/settings.local.json
+

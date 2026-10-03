@@ -1,0 +1,104 @@
+I'll create five Termux alias commands for `hydra`, a password-cracking tool, using a **dragon-themed** naming convention (e.g., Smaug, Puff, Dracarys) to make them memorable. These aliases will simplify common Hydra tasks for brute-forcing on an unrooted Android device in Termux. I’ll assume you have Hydra installed (`pkg install hydra`) and are familiar with its basic usage. The aliases will be designed for common protocols and scenarios, keeping in mind Termux’s limitations on unrooted devices.
+
+### Setup
+As with the nmap aliases, these will be added to `~/.bashrc` in Termux for persistence. Each alias will use dragon-themed names and target common Hydra use cases (e.g., SSH, HTTP, FTP). I’ll include brief explanations and ensure the commands are practical for Termux.
+
+### Dragon-Themed Hydra Aliases
+Hydra is used for brute-forcing passwords, so these aliases focus on different protocols and attack types. Note: Always ensure you have explicit permission to test the target system, as unauthorized use of Hydra is illegal and unethical.
+
+1. **smaug** - Brute-force SSH login with a username and password list.
+   ```bash
+   alias smaug='hydra -l admin -P /sdcard/wordlists/passwords.txt ssh://'
+   ```
+   - `-l admin`: Try the username "admin" (change as needed).
+   - `-P /sdcard/wordlists/passwords.txt`: Use a password list (adjust path to your wordlist).
+   - `ssh://`: Target SSH service.
+   - Usage: `smaug 192.168.1.100` (attempts SSH login on target IP).
+
+2. **puff** - Brute-force HTTP basic authentication.
+   ```bash
+   alias puff='hydra -l admin -P /sdcard/wordlists/passwords.txt http-get://'
+   ```
+   - `http-get://`: Target HTTP basic auth (GET requests).
+   - Usage: `puff 192.168.1.100` (tries to crack HTTP auth on a web server).
+
+3. **dracarys** - Brute-force FTP login with a username list and password list.
+   ```bash
+   alias dracarys='hydra -L /sdcard/wordlists/users.txt -P /sdcard/wordlists/passwords.txt ftp://'
+   ```
+   - `-L /sdcard/wordlists/users.txt`: Use a username list.
+   - `ftp://`: Target FTP service.
+   - Usage: `dracarys 192.168.1.100` (tries FTP credentials).
+
+4. **wyrm** - Brute-force HTTP form login (POST) with custom form fields.
+   ```bash
+   alias wyrm='hydra -l admin -P /sdcard/wordlists/passwords.txt http-post-form://'
+   ```
+   - `http-post-form://`: Target HTTP form-based login (requires additional parameters like form fields).
+   - Usage: `wyrm 192.168.1.100/login:username=^USER^&password=^PASS^:F=incorrect` (adjust form fields and failure string as needed).
+
+5. **scorch** - Fast brute-force for SMB (Windows file sharing) with a single user.
+   ```bash
+   alias scorch='hydra -l administrator -P /sdcard/wordlists/passwords.txt smb://'
+   ```
+   - `smb://`: Target SMB service (common on Windows systems).
+   - Usage: `scorch 192.168.1.100` (tries SMB credentials).
+
+### Adding Aliases to Termux
+To make these aliases persistent:
+
+1. Open Termux and edit the `.bashrc` file:
+   ```bash
+   nano ~/.bashrc
+   ```
+
+2. Append the aliases to the file:
+   ```bash
+   # Dragon-themed Hydra aliases
+   alias smaug='hydra -l admin -P /sdcard/wordlists/passwords.txt ssh://'
+   alias puff='hydra -l admin -P /sdcard/wordlists/passwords.txt http-get://'
+   alias dracarys='hydra -L /sdcard/wordlists/users.txt -P /sdcard/wordlists/passwords.txt ftp://'
+   alias wyrm='hydra -l admin -P /sdcard/wordlists/passwords.txt http-post-form://'
+   alias scorch='hydra -l administrator -P /sdcard/wordlists/passwords.txt smb://'
+   ```
+
+3. Save the file (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
+4. Reload the `.bashrc`:
+   ```bash
+   source ~/.bashrc
+   ```
+
+5. Test an alias (e.g., for SSH):
+   ```bash
+   smaug 192.168.1.100
+   ```
+
+### Notes
+- **Wordlists**: The aliases assume wordlists are stored in `/sdcard/wordlists/`. Create this directory and add files like `passwords.txt` and `users.txt` (e.g., from SecLists or custom lists). You can download a wordlist in Termux:
+  ```bash
+  mkdir -p /sdcard/wordlists
+  wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Common-Credentials/10-million-password-list-top-1000.txt -O /sdcard/wordlists/passwords.txt
+  ```
+- **Permissions**: On unrooted Android, Hydra works fine for most network-based attacks, but ensure the target service is accessible. Some protocols (e.g., SMB) may require specific ports to be open.
+- **Customization**: Adjust usernames (`-l`), wordlist paths (`-P`, `-L`), or form parameters for `wyrm` based on the target. For `http-post-form`, you’ll need to specify the login page, form fields, and failure string (e.g., `F=incorrect`).
+- **Performance**: Hydra can be CPU-intensive on Android. Use the `-t` option (e.g., `-t 4`) to limit concurrent tasks if performance is an issue:
+  ```bash
+  smaug -t 4 192.168.1.100
+  ```
+- **Legality**: Only use Hydra on systems you own or have explicit permission to test. Unauthorized brute-forcing is illegal.
+- **Output**: Hydra outputs results to the terminal. Redirect to a file if needed:
+  ```bash
+  smaug 192.168.1.100 > results.txt
+  ```
+
+### Example Usage
+```bash
+smaug 192.168.1.100                    # Brute-force SSH
+puff 192.168.1.100                     # Brute-force HTTP basic auth
+dracarys 192.168.1.100                 # Brute-force FTP
+wyrm 192.168.1.100/login:username=^USER^&password=^PASS^:F=incorrect  # Brute-force web form
+scorch 192.168.1.100                   # Brute-force SMB
+```
+
+If you need additional aliases, specific protocol tweaks, or help setting up wordlists, let me know!

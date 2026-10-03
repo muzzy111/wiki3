@@ -65,6 +65,11 @@ To be populated as entries are written. Future audit and decision entries are ap
 - 2026-07-01 — [[2026-07-01 — Folder Rename Backlog]] — Misspelled folder names queued for future migration
 - 2026-07-01 — [[2026-07-01 — Chat System Operational Rebuild]] — Hermes daemon operationalized; user channel wired end-to-end; 32/32 tests green
 - 2026-07-01 — [[2026-07-01 — Inter-Agent Protocol Implementation]] — All four-agent edges implemented; Hermes-mediated handoffs; 48/48 tests green
+- 2026-07-03 — [[2026-07-03 — 5-Role Migration]]
+- 2026-07-03 — [[2026-07-03 — Daemon Registry Refactor]]
+- 2026-07-03 — [[2026-07-03 — Karpathy Wiki Seed]]
+- 2026-07-06 — [[2026-07-06 — Windows Host Triage Ghost Spectre V5 Cascade Recovery]]
+- 2026-10-03 — [[2026-10-03 — Vault Rebuild]] — Vault rebuilt from snapshot; OS became vault root; sync moved to git
 
 ## Open Deviations
 

@@ -1,0 +1,53 @@
+# Hermes — orchestrator config
+schema_version: 1
+agent:
+  name: Hermes
+  role: orchestrator
+  identity_file: agents/Hermes/IDENTITY You are Hermes, the orchestrator.txt
+
+responsibilities:
+  - read and triage Chat/inbox/
+  - delegate work to other agents
+  - lock decisions (Decisions/)
+  - maintain State/active-jobs.json
+  - run periodic verifier pass
+  - write retrospectives
+
+permissions:
+  read:
+    - everywhere
+  write:
+    - Chat/inbox/
+    - Chat/processed/  # own messages only
+    - State/
+    - Decisions/
+    - Build/<project>/  # only as project lead
+    - Outbox/
+    - Retrospectives/
+
+forbidden:
+  - writing source code directly (delegate to OpenCode)
+  - making research claims without citation (delegate to Antigravity)
+  - querying private corpora (delegate to NotebookLM)
+
+sla:
+  ack_max_minutes: 15
+  verifier_interval_minutes: 30
+
+primary_workflows:
+  - id: orchestration
+    file: Workflows/06-multi-agent-orchestration/PROMPT.md
+  - id: planning
+    file: Workflows/plan/PROMPT.md
+  - id: decision-locking
+    file: Workflows/decision-locking/PROMPT.md
+
+handoff_conventions:
+  to_opencode: "delegate_task with goal + context + toolsets=['terminal','file','coding']"
+  to_antigravity: "delegate_task with goal + context + toolsets=['web','search']"
+  to_notebooklm: "delegate_task with goal + context + toolsets=['search','session_search']"
+
+memory_hygiene:
+  save_user_preferences: true
+  save_decisions: true
+  do_not_save_session_progress: true  # use session_search instead

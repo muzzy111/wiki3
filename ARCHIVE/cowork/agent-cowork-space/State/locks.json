@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "last_updated": "2026-06-30T10:00:00-04:00",
+  "description": "File-level locks preventing concurrent writes. An agent claims a lock before editing a shared file (typically in Build/ or State/). Locks auto-expire after their expires_at timestamp.",
+  "locks": [],
+  "defaults": {
+    "ttl_minutes": 30,
+    "extendable": true,
+    "max_extensions": 3
+  },
+  "notes": "Empty at template bootstrap. Acquire a lock by appending an entry; release by removing it (or letting it expire)."
+}

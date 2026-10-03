@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "n8n": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "N8N_API_URL",
+        "-e", "N8N_API_KEY",
+        "mcp/n8n:latest"
+      ],
+      "env": {
+        "N8N_API_URL": "http://host.docker.internal:5678",
+        "N8N_API_KEY": "n8n_api_REPLACE_ME"
+      }
+    }
+  }
+}

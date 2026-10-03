@@ -24,9 +24,9 @@ status: active
 
 ## Data and Backup Rules
 
-7. **AGY owns the backup.** AGY is the only agent that may push vault content to Google Drive. No other agent writes to the remote mirror. No agent deletes remote backups.
-8. **The local vault is the source of truth.** The Google Drive mirror is a backup, not a working copy. Edits happen locally; sync is one-way.
-9. **Backups are continuous, not on-demand.** AGY runs a scheduled sync (default: every 15 minutes) and writes a sync log to `4.0AGY/MEMORY/Backup Log.md`.
+7. **Git is the backup.** Vault history and off-machine backup are a private GitHub remote. Agents commit; they do not force-push, rewrite history, or delete the remote.
+8. **The local vault is the source of truth.** The remote is a backup, not a working copy. Google Drive and other file-sync tools must not sync the vault folder.
+9. **Commits are regular, not on-demand.** The Tools role commits and pushes on a schedule and after every closed task, and records failures in `SYSTEM/SYSTEM RECORD/`.
 10. **Memory writes are audited.** Every write to an agent's `MEMORY/` folder is logged in the agent's `MEMORY/Write Log.md`. Mavis curates.
 
 ## Code and Engineering Rules
@@ -61,12 +61,12 @@ status: active
 
 ## Failure and Recovery Rules
 
-26. **If a rule can't be followed, document why.** If an agent cannot follow a system rule due to environmental constraint, the agent writes a note in `SYSTEM/STYTEM RECORD/` documenting the deviation and the reason. The note must be resolved before the task is closed.
+26. **If a rule can't be followed, document why.** If an agent cannot follow a system rule due to environmental constraint, the agent writes a note in `SYSTEM/SYSTEM RECORD/` documenting the deviation and the reason. The note must be resolved before the task is closed.
 27. **Stuck tasks escalate to Hermes.** If an agent is blocked for more than 30 minutes, Hermes is notified with a status update and a proposed path forward.
 
 ## Review and Audit Rules
 
-28. **Mavis runs a weekly audit.** Mavis checks folder health, frontmatter compliance, backup currency, and orphaned notes every Sunday at 22:00 local time. Results post to `SYSTEM/STYTEM RECORD/Audit Log.md`.
+28. **Mavis runs a weekly audit.** Mavis checks folder health, frontmatter compliance, backup currency, and orphaned notes every Sunday at 22:00 local time. Results post to `SYSTEM/SYSTEM RECORD/Audit Log.md`.
 29. **OpenCode's code is reviewed on every commit.** There is no "trivial change" exemption. Five-line fixes still get reviewed.
 30. **AGY's research is reviewed when it informs a user-facing decision.** Pure exploratory research may proceed without review, but anything AGY produces that Hermes intends to quote to the user is reviewed by Mavis first.
 

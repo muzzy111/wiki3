@@ -1,0 +1,44 @@
+# Cross-agent message protocol version
+# Sibling file PROTOCOL.md has the human-readable spec.
+
+schema_version: 1
+protocol:
+  name: agent-cowork-space
+  version: 1.0.0
+  spec: PROTOCOL.md
+
+phases:
+  - survey
+  - discussion-N          # N is 1-indexed; see PROTOCOL.md
+  - decision
+  - checkpoint
+  - report
+  - ack
+  - question
+  - block
+  - unblock
+
+priorities: [blocker, high, normal, low]
+statuses: [open, in-progress, closed, blocked]
+
+filename_pattern: "<from>-<phase>-<slug>.md"
+
+location:
+  inbox: Chat/inbox
+  processed: Chat/processed
+  archive: Chat/archive
+
+required_frontmatter_fields: [from, to, phase, priority, status, created]
+optional_frontmatter_fields:
+  - cc
+  - related
+  - parent
+  - thread
+  - deadline
+  - tags
+  - version
+
+backwards_compatibility:
+  patch: add optional fields
+  minor: add new phases; must be backwards-compatible
+  major: change required fields or filename patterns

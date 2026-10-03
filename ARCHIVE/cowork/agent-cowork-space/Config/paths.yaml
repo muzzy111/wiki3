@@ -1,0 +1,60 @@
+# Path conventions
+# Sibling file paths.md has the human-readable explanation.
+
+schema_version: 1
+
+read_anywhere:
+  - README.md
+  - QUICKSTART.md
+  - PROTOCOL.md
+  - Config/registry.yaml
+
+write_zones:
+  Chat/inbox/:
+    owner: any agent
+    purpose: unread messages
+    filename_pattern: "<from>-<phase>-<slug>.md"
+
+  Chat/processed/:
+    owner: any agent (their own inbox only)
+    purpose: acknowledged messages
+    rule: never edit, only move from inbox
+
+  Chat/archive/:
+    owner: verifier
+    purpose: stale messages (>90 days)
+
+  Build/<project>/<agent>/:
+    owner: <agent> (the writer)
+    purpose: in-progress work
+    rule: never edit another agent's folder
+
+  Build/<project>/:
+    owner: project lead
+    purpose: promoted or integrated deliverable
+
+  State/:
+    owner: orchestrator plus agents updating their own state
+    rule: use patch, never rewrite whole files
+
+  Decisions/:
+    owner: orchestrator (writes)
+    rule: append-only; superseded decisions stay for history
+
+  Outbox/:
+    owner: any agent
+    purpose: finalized deliverables awaiting human handoff
+
+forbidden:
+  - writing binary files (images, PDFs) directly in this space
+  - deleting from Chat/ or Decisions/
+  - writing secrets (use Config/secrets.yaml which is gitignored)
+
+path_expansion:
+  "<root>": this directory
+  "<project>": "Build/<project>/"
+  "<agent>": one of the names in registry.yaml
+  "<inbox>": "Chat/inbox/"
+  "<processed>": "Chat/processed/"
+  "<state>": "State/"
+  "<identity>": "Config/agents/<agent>.yaml"

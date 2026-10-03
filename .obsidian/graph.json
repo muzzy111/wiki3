@@ -6,22 +6,7 @@
   "hideUnresolved": false,
   "showOrphans": true,
   "collapse-color-groups": false,
-  "colorGroups": [
-    {
-      "query": "section:(prompts)",
-      "color": {
-        "a": 1,
-        "rgb": 14701138
-      }
-    },
-    {
-      "query": "section:(SKILLS)",
-      "color": {
-        "a": 1,
-        "rgb": 16582688
-      }
-    }
-  ],
+  "colorGroups": [],
   "collapse-display": false,
   "showArrow": false,
   "textFadeMultiplier": 0,
@@ -29,9 +14,9 @@
   "lineSizeMultiplier": 1,
   "collapse-forces": false,
   "centerStrength": 0.518713248970312,
-  "repelStrength": 10.8316008316008,
+  "repelStrength": 10,
   "linkStrength": 1,
-  "linkDistance": 496,
-  "scale": 0.05932617187499919,
-  "close": false
+  "linkDistance": 250,
+  "scale": 0.02431252836326993,
+  "close": true
 }

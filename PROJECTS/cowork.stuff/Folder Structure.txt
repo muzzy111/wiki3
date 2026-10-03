@@ -1,0 +1,24 @@
+Folder Structure
+C:\Users\Admin\Documents\GitHub\
+  Hermes\
+  OpenCode\
+  Antigravity\
+  Chat\
+    repo-manifest.md
+    hermes-final-decision.md       ← the plan lives here
+  Build\
+    [ProjectName]\                 ← actual code output goes here
+  Source\                          ← you pre-seed this with relevant repo code
+
+Role Division for Build Phase
+AgentRoleToken LoadHermesOrchestrator — writes task tickets, integrates modules, routes files, signs offHeavyOpenCodePrimary coder — implements tasks, writes tests, does code reviewHeavyAntigravityCalled at 3 checkpoints only — architecture review, mid-build gap check, final QA passLight
+Antigravity never writes code. It reads, flags problems, and hands back to Hermes. That keeps it well within Gemini Pro limits.
+
+The Task Ticket System
+Hermes drives the build by writing ticket files to Chat\. Agents poll for their ticket, complete the work, write output to Build\[ProjectName]\, then write a completion file back to Chat\.
+Chat\
+  ticket-001-opencode.md       ← Hermes writes this
+  ticket-001-complete.md       ← OpenCode writes this when done
+  ticket-002-opencode.md       ← next task
+  checkpoint-1-antigravity.md  ← Hermes calls Antigravity in
+  checkpoint-1-response.md     ← Antigravity responds

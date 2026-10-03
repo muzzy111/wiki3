@@ -1,0 +1,82 @@
+# Agent registry — machine-readable
+# This is the canonical list of every agent. The orchestrator reads it
+# on startup. Sibling file registry.md has human-readable explanation.
+
+schema_version: 1
+
+registry:
+  - name: Hermes
+    role: orchestrator
+    home: agents/Hermes
+    identity_file: agents/Hermes/IDENTITY You are Hermes, the orchestrator.txt
+    config: Config/agents/hermes.yaml
+    primary_workflows:
+      - orchestration
+      - planning
+      - decision-locking
+    capabilities:
+      - delegate_task
+      - cronjob
+      - plan
+      - todo
+      - memory
+    ack_sla_minutes: 15
+    status: active
+
+  - name: OpenCode
+    role: builder
+    home: agents/OpenCode
+    identity_file: agents/OpenCode/IDENTITY You are OpenCode, the builder.txt
+    config: Config/agents/opencode.yaml
+    primary_workflows:
+      - code-generation
+      - testing-qa
+      - code-review
+    capabilities:
+      - delegate_task_coding
+      - terminal
+      - file
+      - search
+    ack_sla_minutes: 30
+    status: active
+
+  - name: Antigravity
+    role: strategist
+    home: agents/Antigravity
+    identity_file: agents/Antigravity/IDENTITY You are Antigravity, the strategist.txt
+    config: Config/agents/antigravity.yaml
+    primary_workflows:
+      - research
+      - strategic-review
+      - checkpoint
+    capabilities:
+      - web_search
+      - web_extract
+      - delegate_task_research
+    ack_sla_minutes: 30
+    status: active
+
+  - name: NotebookLM
+    role: retriever
+    home: agents/NotebookLM
+    identity_file: agents/NotebookLM/IDENTITY You are NotebookLM, the knowledge retriever.txt
+    config: Config/agents/notebooklm.yaml
+    primary_workflows:
+      - knowledge-retrieval
+      - document-summarization
+    capabilities:
+      - notebooklm_mcp
+      - delegate_task_long_context
+    ack_sla_minutes: 60
+    status: active
+
+roster:
+  total: 4
+  active: [Hermes, OpenCode, Antigravity, NotebookLM]
+  paused: []
+  retired: []
+
+defaults:
+  ack_sla_minutes: 60
+  verifier_interval_minutes: 30
+  archive_after_days: 90

@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Everything",
+            "type": "shell",
+            "command": "pwsh",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\Start-Everything.ps1"],
+            "group": { "kind": "build", "isDefault": true },
+            "presentation": { "reveal": "always", "panel": "new" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Stop Everything",
+            "type": "shell",
+            "command": "pwsh",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\Stop-Everything.ps1"],
+            "group": "build",
+            "presentation": { "reveal": "always", "panel": "new" },
+            "problemMatcher": []
+        }
+    ]
+}
