@@ -7,6 +7,11 @@ bus:
   url: "nats://localhost:4222"
   stream: "AGENT_ENVELOPES"
   management_url: "http://localhost:8222"
+  broadcast:
+    all:         "broadcast.all"
+    coders:      "broadcast.coders"       # claude, cline, opencode, mavis, antigravity
+    researchers: "broadcast.researchers"  # grok, openwork
+    tools:       "broadcast.tools"        # ollama, copilot
 
 controller:
   provider: openrouter
@@ -164,6 +169,60 @@ agents:
       heartbeat: "heartbeat.ollama"
       reply: "reply.ollama"
     description: "Ollama local. Mini function-calling. No MCP, no cloud."
+
+  # ---- Review tier (ephemeral; invoked via Claude Code Agent tool, not NATS workers) ----
+  # These three agents are the adversarial redteams for research / plan / content
+  # review gates (see docs/loop-vault-setup/03-pipeline-design.md). They are
+  # provisioned here for loopd discovery/registry parity, but they are summoned
+  # as .claude/agents/*.md adapters by the main session — not as persistent CLI
+  # workers. `is_persistent: false` keeps loopd from spawning long-lived processes.
+  - role: research-redteam
+    cli: claude
+    args: ["-p"]
+    is_persistent: false
+    profile: redteam-opus
+    max_skills: 1
+    max_mcps: 0
+    nats:
+      work: "work.research-redteam"
+      inbox: "inbox.research-redteam"
+      heartbeat: "heartbeat.research-redteam"
+      reply: "reply.research-redteam"
+    allowed_dirs:
+      - "TASKS/*/02-research-review.md"
+    description: "Research redteam. Adversarial review of 02-research.md. Write-only to 02-research-review.md."
+
+  - role: plan-redteam
+    cli: claude
+    args: ["-p"]
+    is_persistent: false
+    profile: redteam-opus
+    max_skills: 1
+    max_mcps: 0
+    nats:
+      work: "work.plan-redteam"
+      inbox: "inbox.plan-redteam"
+      heartbeat: "heartbeat.plan-redteam"
+      reply: "reply.plan-redteam"
+    allowed_dirs:
+      - "TASKS/*/03-plan-review.md"
+    description: "Plan redteam. Adversarial review of 03-plan.md. Write-only to 03-plan-review.md."
+
+  - role: content-redteam
+    cli: claude
+    args: ["-p"]
+    is_persistent: false
+    profile: redteam-opus
+    max_skills: 1
+    max_mcps: 0
+    nats:
+      work: "work.content-redteam"
+      inbox: "inbox.content-redteam"
+      heartbeat: "heartbeat.content-redteam"
+      reply: "reply.content-redteam"
+    allowed_dirs:
+      - "TASKS/*/06-content-review.md"
+    description: "Content redteam. Adversarial review of 06-deliverable.md and Karpathy wiki updates. Write-only to 06-content-review.md."
 
 models:
   ollama:

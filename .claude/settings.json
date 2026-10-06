@@ -1,0 +1,83 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git add *)",
+      "Bash(git commit*)",
+      "Bash(git branch*)",
+      "Bash(git stash*)",
+      "Bash(git pull*)",
+      "Bash(git checkout *)",
+      "Bash(sqlite3*)",
+      "Bash(scripts/*.sh*)",
+      "PowerShell(scripts/*.ps1*)",
+      "PowerShell(scripts/session-start*)",
+      "PowerShell(scripts/turnkey-*)",
+      "PowerShell(scripts/start-hermes-*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo rm*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "timeout": 5,
+            "command": "bash .claude/hooks/pre-tool-protected-paths.sh"
+          },
+          {
+            "type": "command",
+            "shell": "bash",
+            "timeout": 5,
+            "command": "bash .claude/hooks/pre-tool-reviewer-ownership.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "timeout": 5,
+            "command": "bash .claude/hooks/pre-tool-vault-db-ddl.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "timeout": 5,
+            "command": "bash .claude/hooks/post-tool-vault-db-dml.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "timeout": 5,
+            "command": "bash .claude/hooks/post-tool-karpathy-signal.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
